@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
       ),
       Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 400),
+          constraints: const BoxConstraints(maxWidth: 300),
           child: RestaurantLandscapeCard(restaurant: restaurants[0]),
         ),
       ),
