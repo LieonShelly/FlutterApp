@@ -24,19 +24,6 @@ class CategoryCard extends StatelessWidget {
                 ),
                 child: Image.asset(category.imageUrl),
               ),
-              Positioned(
-                left: 16.0,
-                top: 16.0,
-                child: Text("Yummy", style: textThem.headlineLarge),
-              ),
-              Positioned(
-                bottom: 16,
-                right: 16,
-                child: RotatedBox(
-                  quarterTurns: 1,
-                  child: Text('Smothies', style: textThem.headlineLarge),
-                ),
-              ),
             ],
           ),
           ListTile(

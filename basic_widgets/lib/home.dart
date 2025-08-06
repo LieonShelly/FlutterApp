@@ -3,6 +3,7 @@ import 'package:basic_widgets/components/post_card.dart';
 import 'package:basic_widgets/constants.dart';
 import 'package:basic_widgets/models/food_category.dart';
 import 'package:basic_widgets/models/models.dart';
+import 'package:basic_widgets/screens/explore_page.dart';
 import 'package:flutter/material.dart';
 import 'components/category_card.dart';
 import 'components/restaurant_landscape_card.dart';
@@ -51,12 +52,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 300),
-          child: CategoryCard(category: categories[0]),
-        ),
-      ),
+      ExplorePage(),
       Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
