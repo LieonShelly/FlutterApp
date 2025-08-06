@@ -1,3 +1,4 @@
+import 'package:basic_widgets/components/color_button.dart';
 import 'package:basic_widgets/components/post_card.dart';
 import 'package:basic_widgets/constants.dart';
 import 'package:basic_widgets/models/food_category.dart';
@@ -5,6 +6,7 @@ import 'package:basic_widgets/models/models.dart';
 import 'package:flutter/material.dart';
 import 'components/category_card.dart';
 import 'components/restaurant_landscape_card.dart';
+import 'components/theme_button.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -73,7 +75,13 @@ class _HomeState extends State<Home> {
         title: Text(widget.appTitle),
         elevation: 4,
         backgroundColor: Theme.of(context).colorScheme.surface,
-        actions: [],
+        actions: [
+          ThemeButton(changeThemeMode: widget.changeTheme),
+          ColorButton(
+            changeColor: widget.changeColor,
+            colorSelected: widget.colorSelected,
+          ),
+        ],
       ),
       body: IndexedStack(index: tab, children: pages),
       bottomNavigationBar: NavigationBar(
