@@ -1,11 +1,11 @@
 import '../models/models.dart';
 
 class ExploreData {
-  final List<Restaurant> restaruants;
+  final List<Restaurant> restaurants;
   final List<FoodCategory> categories;
   final List<Post> friendPosts;
 
-  ExploreData(this.restaruants, this.categories, this.friendPosts);
+  ExploreData(this.restaurants, this.categories, this.friendPosts);
 }
 
 class MockYummyService {

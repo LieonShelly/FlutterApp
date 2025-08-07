@@ -31,6 +31,7 @@ class PostCard extends StatelessWidget {
                     post.comment,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.titleMedium,
+                    maxLines: 2,
                   ),
                   Text('${post.timestamp} min ago', style: textTheme.bodySmall),
                 ],
