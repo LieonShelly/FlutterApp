@@ -1,3 +1,4 @@
+import 'package:basic_widgets/screens/restaurant_page.dart';
 import 'package:flutter/material.dart';
 import '../models/restaurant.dart';
 
@@ -63,7 +64,14 @@ class _RestaurantLandscapeCardState extends State<RestaurantLandscapeCard> {
               style: textTheme.bodySmall,
             ),
             onTap: () {
-              print('Tap on ${restaurant.name}');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return RestaurantPage(restaurant: widget.restaurant);
+                  },
+                ),
+              );
             },
           ),
         ],
