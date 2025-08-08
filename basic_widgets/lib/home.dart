@@ -4,6 +4,7 @@ import 'package:basic_widgets/constants.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/food_category.dart';
 import 'package:basic_widgets/models/models.dart';
+import 'package:basic_widgets/models/order_manager.dart';
 import 'package:basic_widgets/screens/explore_page.dart';
 import 'package:flutter/material.dart';
 import 'components/category_card.dart';
@@ -18,6 +19,7 @@ class Home extends StatefulWidget {
     required this.changeColor,
     required this.appTitle,
     required this.cartManager,
+    required this.orderManager,
   });
 
   final ColorSelection colorSelected;
@@ -25,6 +27,7 @@ class Home extends StatefulWidget {
   final void Function(int value) changeColor;
   final String appTitle;
   final CartManager cartManager;
+  final OrderManager orderManager;
 
   @override
   State<Home> createState() {
@@ -55,7 +58,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      ExplorePage(cartManager: widget.cartManager),
+      ExplorePage(
+        cartManager: widget.cartManager,
+        orderManager: widget.orderManager,
+      ),
       Center(
         child: Padding(
           padding: const EdgeInsets.all(16),

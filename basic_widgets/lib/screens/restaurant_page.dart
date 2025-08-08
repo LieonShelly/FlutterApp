@@ -1,16 +1,21 @@
 import 'package:basic_widgets/components/item_details.dart';
 import 'package:basic_widgets/components/restaurant_item.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
+import 'package:basic_widgets/models/order_manager.dart';
 import 'package:basic_widgets/models/restaurant.dart';
+import 'package:basic_widgets/screens/checkout_page.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;
   final CartManager cartManager;
+  final OrderManager orderManager;
+
   const RestaurantPage({
     super.key,
     required this.restaurant,
     required this.cartManager,
+    required this.orderManager,
   });
 
   @override
@@ -23,20 +28,55 @@ class _RestaurantPageState extends State<RestaurantPage> {
   static const desktopThreshold = 700;
   static const double largeScreenPercentage = 0.9;
   static const double maxWidth = 1000;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  static const double drawerWidth = 375.0;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
     final constrainedWidth = _caculateConstrainedWidth(screenWidth);
 
     return Scaffold(
+      key: scaffoldKey,
+      endDrawer: _buildEndDrawer(),
+      floatingActionButton: _buildFloatingActionButton(),
       body: Center(
         child: SizedBox(
           width: constrainedWidth,
           child: _buildCustomScrollView(),
         ),
       ),
+    );
+  }
+
+  Widget _buildEndDrawer() {
+    return SizedBox(
+      width: drawerWidth,
+      child: Drawer(
+        child: CheckoutPage(
+          cartManager: widget.cartManager,
+          didUpdate: () {
+            setState(() {});
+          },
+          onSubmit: (order) {
+            widget.orderManager.addOrder(order);
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
+        ),
+      ),
+    );
+  }
+
+  void openDrawer() {
+    scaffoldKey.currentState!.openEndDrawer();
+  }
+
+  Widget _buildFloatingActionButton() {
+    return FloatingActionButton.extended(
+      onPressed: openDrawer,
+      tooltip: 'Cart',
+      icon: const Icon(Icons.shopping_cart),
+      label: Text('${widget.cartManager.items.length} Itens in cart'),
     );
   }
 
@@ -51,9 +91,10 @@ class _RestaurantPageState extends State<RestaurantPage> {
   }
 
   double _caculateConstrainedWidth(double screenWidth) {
-    return screenWidth > desktopThreshold
-        ? screenWidth * largeScreenPercentage
-        : screenWidth;
+    return (screenWidth > desktopThreshold
+            ? screenWidth * largeScreenPercentage
+            : screenWidth)
+        .clamp(0.0, maxWidth);
   }
 
   SliverAppBar _buildSliverAppBar() {
@@ -161,7 +202,9 @@ class _RestaurantPageState extends State<RestaurantPage> {
         return ItemDetails(
           item: item,
           cartManager: widget.cartManager,
-          quantityUpdated: () {},
+          quantityUpdated: () {
+            setState(() {});
+          },
         );
       },
     );

@@ -1,16 +1,20 @@
 import 'package:basic_widgets/components/restaurant_landscape_card.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/models.dart';
+import 'package:basic_widgets/models/order_manager.dart';
 import 'package:basic_widgets/screens/restaurant_page.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantSection extends StatelessWidget {
   final List<Restaurant> restaurants;
   final CartManager cartManager;
+  final OrderManager orderManager;
+
   const RestaurantSection({
     super.key,
     required this.restaurants,
     required this.cartManager,
+    required this.orderManager,
   });
 
   @override
@@ -44,6 +48,7 @@ class RestaurantSection extends StatelessWidget {
                           builder: (context) => RestaurantPage(
                             restaurant: restaurants[index],
                             cartManager: cartManager,
+                            orderManager: orderManager,
                           ),
                         ),
                       );
