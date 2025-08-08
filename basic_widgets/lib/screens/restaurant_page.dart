@@ -1,11 +1,17 @@
+import 'package:basic_widgets/components/item_details.dart';
 import 'package:basic_widgets/components/restaurant_item.dart';
+import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/restaurant.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;
-
-  const RestaurantPage({super.key, required this.restaurant});
+  final CartManager cartManager;
+  const RestaurantPage({
+    super.key,
+    required this.restaurant,
+    required this.cartManager,
+  });
 
   @override
   State<RestaurantPage> createState() {
@@ -141,8 +147,23 @@ class _RestaurantPageState extends State<RestaurantPage> {
   Widget _buildGridItem(int index) {
     final item = widget.restaurant.items[index];
     return InkWell(
-      onTap: () {},
+      onTap: () => _showBottomSheet(item),
       child: RestaurantItem(item: item),
+    );
+  }
+
+  void _showBottomSheet(Item item) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      constraints: const BoxConstraints(maxWidth: 480),
+      builder: (context) {
+        return ItemDetails(
+          item: item,
+          cartManager: widget.cartManager,
+          quantityUpdated: () {},
+        );
+      },
     );
   }
 

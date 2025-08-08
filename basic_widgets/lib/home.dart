@@ -1,6 +1,7 @@
 import 'package:basic_widgets/components/color_button.dart';
 import 'package:basic_widgets/components/post_card.dart';
 import 'package:basic_widgets/constants.dart';
+import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/food_category.dart';
 import 'package:basic_widgets/models/models.dart';
 import 'package:basic_widgets/screens/explore_page.dart';
@@ -16,12 +17,14 @@ class Home extends StatefulWidget {
     required this.changeTheme,
     required this.changeColor,
     required this.appTitle,
+    required this.cartManager,
   });
 
   final ColorSelection colorSelected;
   final void Function(bool useLightMode) changeTheme;
   final void Function(int value) changeColor;
   final String appTitle;
+  final CartManager cartManager;
 
   @override
   State<Home> createState() {
@@ -52,19 +55,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      ExplorePage(),
+      ExplorePage(cartManager: widget.cartManager),
       Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: PostCard(post: posts[0]),
         ),
       ),
-      Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 300),
-          child: RestaurantLandscapeCard(restaurant: restaurants[0]),
-        ),
-      ),
+      Center(child: Text("Account Page", style: TextStyle(fontSize: 32))),
     ];
     return Scaffold(
       appBar: AppBar(

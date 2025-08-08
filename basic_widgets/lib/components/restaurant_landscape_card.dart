@@ -4,8 +4,13 @@ import '../models/restaurant.dart';
 
 class RestaurantLandscapeCard extends StatefulWidget {
   final Restaurant restaurant;
+  final void Function() onTap;
 
-  const RestaurantLandscapeCard({super.key, required this.restaurant});
+  const RestaurantLandscapeCard({
+    super.key,
+    required this.restaurant,
+    required this.onTap,
+  });
 
   @override
   State<RestaurantLandscapeCard> createState() {
@@ -63,16 +68,7 @@ class _RestaurantLandscapeCardState extends State<RestaurantLandscapeCard> {
               maxLines: 1,
               style: textTheme.bodySmall,
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return RestaurantPage(restaurant: widget.restaurant);
-                  },
-                ),
-              );
-            },
+            onTap: widget.onTap,
           ),
         ],
       ),
