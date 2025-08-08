@@ -14,7 +14,7 @@ class CaretegorySection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 8),
+            padding: EdgeInsets.only(left: 16, bottom: 8),
             child: Text(
               "Categories",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
