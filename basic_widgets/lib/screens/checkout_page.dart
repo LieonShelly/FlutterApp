@@ -68,8 +68,41 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
               ],
             ),
+            const SizedBox(height: 16),
+            const Text("Oder Summary"),
+            _buildOderSummary(context),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildOderSummary(BuildContext context) {
+    final colorTheme = Theme.of(context).colorScheme;
+    return Expanded(
+      child: ListView.builder(
+        itemCount: widget.cartManager.items.length,
+        itemBuilder: (context, index) {
+          final item = widget.cartManager.itemAt(index);
+          return Dismissible(
+            key: Key(item.id),
+            direction: DismissDirection.endToStart,
+            background: Container(),
+            secondaryBackground: const SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [Icon(Icons.delete)],
+              ),
+            ),
+            onDismissed: (direction) {
+              setState(() {
+                widget.cartManager.removeItem(item.id);
+              });
+              widget.didUpdate();
+            },
+            child: ClipRRect(),
+          );
+        },
       ),
     );
   }
