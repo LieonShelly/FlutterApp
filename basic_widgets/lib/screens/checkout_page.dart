@@ -70,14 +70,44 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
             const SizedBox(height: 16),
             const Text("Oder Summary"),
-            _buildOderSummary(context),
+            _buildOrderSummary(context),
+            _buildSubmitButton(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildOderSummary(BuildContext context) {
+  Widget _buildSubmitButton() {
+    return ElevatedButton(
+      onPressed: widget.cartManager.isEmpty
+          ? null
+          : () {
+              final seletedSegment = this.selectedSegment;
+              final selectedTime = this.selectedTime;
+              final selectedDate = this.selectedDate;
+              final name = _nameController.text;
+              final items = widget.cartManager.items;
+              final order = Order(
+                selectedSegment: seletedSegment,
+                selectedTime: selectedTime,
+                selectedDate: selectedDate,
+                name: name,
+                items: items,
+              );
+              widget.cartManager.resetCart();
+              widget.onSubmit(order);
+            },
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          '''Submit Order - \$${widget.cartManager.totalCost.toStringAsFixed(2)}''',
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrderSummary(BuildContext context) {
     final colorTheme = Theme.of(context).colorScheme;
     return Expanded(
       child: ListView.builder(
@@ -100,7 +130,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
               });
               widget.didUpdate();
             },
-            child: ClipRRect(),
+            child: ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  border: Border.all(color: colorTheme.primary, width: 2),
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  child: Text('x${item.quantity}'),
+                ),
+              ),
+              title: Text(item.name),
+              subtitle: Text('Price:\$${item.price}'),
+            ),
           );
         },
       ),
