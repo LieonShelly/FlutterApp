@@ -92,7 +92,6 @@ class _ItemDetailsState extends State<ItemDetails> {
           widget.cartManager.addItem(cartItem);
           widget.quantityUpdated();
         });
-        Navigator.pop(context);
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:basic_widgets/components/color_button.dart';
 import 'package:basic_widgets/components/post_card.dart';
 import 'package:basic_widgets/constants.dart';
+import 'package:basic_widgets/models/auth.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/food_category.dart';
 import 'package:basic_widgets/models/models.dart';
@@ -14,18 +15,21 @@ import 'components/theme_button.dart';
 class Home extends StatefulWidget {
   const Home({
     super.key,
+    required this.auth,
     required this.colorSelected,
     required this.changeTheme,
     required this.changeColor,
-    required this.appTitle,
     required this.cartManager,
     required this.orderManager,
+    required this.tab,
   });
 
+  final Yummyauth auth;
+  final int tab;
   final ColorSelection colorSelected;
   final void Function(bool useLightMode) changeTheme;
   final void Function(int value) changeColor;
-  final String appTitle;
+  final String appTitle = "Yummy";
   final CartManager cartManager;
   final OrderManager orderManager;
 

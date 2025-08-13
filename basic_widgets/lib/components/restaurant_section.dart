@@ -41,18 +41,7 @@ class RestaurantSection extends StatelessWidget {
                   width: 300,
                   child: RestaurantLandscapeCard(
                     restaurant: restaurants[index],
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RestaurantPage(
-                            restaurant: restaurants[index],
-                            cartManager: cartManager,
-                            orderManager: orderManager,
-                          ),
-                        ),
-                      );
-                    },
+                    onTap: () {},
                   ),
                 );
               },

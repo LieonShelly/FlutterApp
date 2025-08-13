@@ -1,8 +1,10 @@
 import 'package:basic_widgets/constants.dart';
 import 'package:basic_widgets/home.dart';
+import 'package:basic_widgets/models/auth.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/order_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const Yummy());
@@ -22,6 +24,27 @@ class _YummyState extends State<Yummy> {
   ColorSelection colorSelected = ColorSelection.pink;
   final CartManager _cartManager = CartManager();
   final OrderManager _orderManager = OrderManager();
+  final Yummyauth _auth = Yummyauth();
+  late final _router = GoRouter(
+    initialLocation: '/login',
+    redirect: _appRedirect,
+    routes: [
+      GoRoute(
+        path: '/:tab',
+        builder: (context, state) {
+          return Home(
+            auth: _auth,
+            colorSelected: colorSelected,
+            changeTheme: changeThemeMode,
+            changeColor: changeColor,
+            cartManager: _cartManager,
+            orderManager: _orderManager,
+            tab: int.tryParse(state.pathParameters['tab'] ?? '') ?? 0,
+          );
+        },
+      ),
+    ],
+  );
 
   void changeThemeMode(bool useLightMode) {
     setState(() {
@@ -38,7 +61,7 @@ class _YummyState extends State<Yummy> {
   @override
   Widget build(BuildContext context) {
     const appTitle = "Yummy";
-    return MaterialApp(
+    return MaterialApp.router(
       title: appTitle,
       debugShowCheckedModeBanner: false,
       themeMode: themeMode,
@@ -52,14 +75,20 @@ class _YummyState extends State<Yummy> {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      home: Home(
-        colorSelected: colorSelected,
-        changeTheme: changeThemeMode,
-        changeColor: changeColor,
-        appTitle: appTitle,
-        cartManager: _cartManager,
-        orderManager: _orderManager,
-      ),
     );
+  }
+
+  Future<String?> _appRedirect(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
+    final loggedIn = await _auth.loggedIn;
+    final isOnLoginPage = state.matchedLocation == '/login';
+    if (!loggedIn) {
+      return '/login';
+    } else if (loggedIn && isOnLoginPage) {
+      return '/${YummyTab.home.value}';
+    }
+    return null;
   }
 }

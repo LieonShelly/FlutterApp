@@ -60,7 +60,6 @@ class _RestaurantPageState extends State<RestaurantPage> {
           },
           onSubmit: (order) {
             widget.orderManager.addOrder(order);
-            Navigator.popUntil(context, (route) => route.isFirst);
           },
         ),
       ),
