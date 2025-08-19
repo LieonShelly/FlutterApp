@@ -1,9 +1,11 @@
 import 'package:basic_widgets/components/restaurant_landscape_card.dart';
+import 'package:basic_widgets/constants.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/models.dart';
 import 'package:basic_widgets/models/order_manager.dart';
 import 'package:basic_widgets/screens/restaurant_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RestaurantSection extends StatelessWidget {
   final List<Restaurant> restaurants;
@@ -41,7 +43,11 @@ class RestaurantSection extends StatelessWidget {
                   width: 300,
                   child: RestaurantLandscapeCard(
                     restaurant: restaurants[index],
-                    onTap: () {},
+                    onTap: () {
+                      context.go(
+                        '/${YummyTab.home.value}/restaurant/${restaurants[index].id}',
+                      );
+                    },
                   ),
                 );
               },

@@ -3,6 +3,9 @@ import 'package:basic_widgets/home.dart';
 import 'package:basic_widgets/models/auth.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/order_manager.dart';
+import 'package:basic_widgets/models/restaurant.dart';
+import 'package:basic_widgets/screens/login_page.dart';
+import 'package:basic_widgets/screens/restaurant_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +33,16 @@ class _YummyState extends State<Yummy> {
     redirect: _appRedirect,
     routes: [
       GoRoute(
+        path: '/login',
+        builder: (context, state) => LoginPage(
+          onLogIn: (Credentials credentials) async {
+            _auth
+                .siginIn(credentials.username, credentials.password)
+                .then((_) => context.go('/${YummyTab.home.value}'));
+          },
+        ),
+      ),
+      GoRoute(
         path: '/:tab',
         builder: (context, state) {
           return Home(
@@ -42,6 +55,20 @@ class _YummyState extends State<Yummy> {
             tab: int.tryParse(state.pathParameters['tab'] ?? '') ?? 0,
           );
         },
+        routes: [
+          GoRoute(
+            path: 'restaurant/:id',
+            builder: (context, state) {
+              final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+              final restaurant = restaurants[id];
+              return RestaurantPage(
+                restaurant: restaurant,
+                cartManager: _cartManager,
+                orderManager: _orderManager,
+              );
+            },
+          ),
+        ],
       ),
     ],
   );
@@ -64,6 +91,7 @@ class _YummyState extends State<Yummy> {
     return MaterialApp.router(
       title: appTitle,
       debugShowCheckedModeBanner: false,
+      routerConfig: _router,
       themeMode: themeMode,
       theme: ThemeData(
         colorSchemeSeed: colorSelected.color,
