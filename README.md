@@ -115,3 +115,35 @@ class Dog extends Animal {
 }
 
 ```
+
+### Dart 中 new / final / const 构造函数对比
+
+| 关键字      | 含义 | 是否运行时创建对象 | 是否编译时创建对象 | 是否可变 | 是否复用同一对象 | 常见场景 |
+|-------------|------|--------------------|--------------------|----------|------------------|----------|
+| `new` (默认) | 普通构造函数 | ✅ 是 | ❌ 否 | ✅ 可变（取决于类） | ❌ 否 | 一般对象创建 |
+| `final`     | 只能赋值一次的变量 | ✅ 是 | ❌ 否 | ⚠️ 引用不可变，但对象本身可变 | ❌ 否 | 运行时常量引用 |
+| `const` (对象) | 编译时常量对象 | ❌ 否 | ✅ 是 | ❌ 不可变（字段必须是 `final`） | ✅ 相同参数对象自动复用 | Flutter 常量 Widget、不可变值对象 |
+| `const` (构造函数) | 定义可用于创建编译时常量的构造函数 | ❌ 否 | ✅ 是（当用 `const` 创建时） | ❌ 不可变 | ✅ 相同参数对象自动复用 | 用于定义不可变类，例如 `const Point(1,2)` |
+
+---
+
+## 示例
+
+```dart
+class Point {
+  final int x;
+  final int y;
+
+  const Point(this.x, this.y);
+}
+
+void main() {
+  var p1 = Point(1, 2);       // 普通对象，运行时创建
+  final p2 = Point(1, 2);     // 运行时常量引用，但不是编译时常量对象
+  const p3 = Point(1, 2);     // 编译时常量对象
+  const p4 = Point(1, 2);     // 与 p3 复用同一个对象
+
+  print(identical(p1, p2)); // false
+  print(identical(p2, p3)); // false
+  print(identical(p3, p4)); // true
+}

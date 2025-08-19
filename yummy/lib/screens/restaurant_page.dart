@@ -1,10 +1,12 @@
 import 'package:basic_widgets/components/item_details.dart';
 import 'package:basic_widgets/components/restaurant_item.dart';
+import 'package:basic_widgets/constants.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/order_manager.dart';
 import 'package:basic_widgets/models/restaurant.dart';
 import 'package:basic_widgets/screens/checkout_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;
@@ -60,6 +62,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
           },
           onSubmit: (order) {
             widget.orderManager.addOrder(order);
+            context.pop();
+            context.go('/${YummyTab.orders.value}');
           },
         ),
       ),
