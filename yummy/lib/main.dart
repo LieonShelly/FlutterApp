@@ -4,13 +4,25 @@ import 'package:basic_widgets/models/auth.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/order_manager.dart';
 import 'package:basic_widgets/models/restaurant.dart';
+import 'package:basic_widgets/providers.dart';
+import 'package:basic_widgets/recipe_app.dart';
 import 'package:basic_widgets/screens/login_page.dart';
 import 'package:basic_widgets/screens/restaurant_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const Yummy());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final sharedPrefs = await SharedPreferences.getInstance();
+  runApp(
+    ProviderScope(
+      overrides: [sharedPrefProvider.overrideWithValue(sharedPrefs)],
+      child: const RecipeApp(),
+    ),
+  );
+  // runApp(const Yummy());
 }
 
 class Yummy extends StatefulWidget {

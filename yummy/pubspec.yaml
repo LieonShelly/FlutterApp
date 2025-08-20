@@ -35,16 +35,36 @@ dependencies:
   go_router: ^13.0.1
   url_launcher: ^6.2.1
   shared_preferences: ^2.2.2
+  logging: ^1.2.0
+  auto_size_text: ^3.0.0
+  flutter_adaptive_scaffold: ^0.1.6
+  desktop_window: ^0.4.0
+  path: ^1.8.3
+  cached_network_image: ^3.2.3
+  flutter_slidable: ^3.0.0
+  platform: ^3.1.0
+  freezed_annotation: ^2.4.1
+  flutter_svg: ^2.0.7
+  flutter_html: ^3.0.0-beta.2
+  lumberdash: ^3.0.0
+  colorize_lumberdash: ^3.0.0
+  path_provider: ^2.0.15
+  flutter_riverpod: ^2.3.6
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
+  menubar:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/menubar
+      ref: 12decbe0f592e14e03223f6f2c0c7e0e2dbd70a1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-
+  build_runner: ^2.4.6
+  freezed: ^2.4.1
+  json_serializable: ^6.7.1
+  
 flutter:
   uses-material-design: true
 
@@ -55,4 +75,5 @@ flutter:
     - assets/restaurants/
     - assets/profile_pics/
     - assets/food/
+    - assets/images/
   #   - images/a_dot_ham.jpeg
