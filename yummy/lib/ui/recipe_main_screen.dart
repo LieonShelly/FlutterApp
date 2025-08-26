@@ -1,4 +1,5 @@
 import 'package:basic_widgets/providers.dart';
+import 'package:basic_widgets/ui/recipes/recipe_list.dart';
 import 'package:basic_widgets/ui/theme/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/material.dart";
@@ -21,6 +22,7 @@ class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
   @override
   void initState() {
     super.initState();
+    pageList.add(const RecipeList());
     getCurrentIndex();
   }
 
