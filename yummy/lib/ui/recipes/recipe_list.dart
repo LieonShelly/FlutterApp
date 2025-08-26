@@ -165,6 +165,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
                     icon: const Icon(Icons.arrow_drop_down, color: lightGrey),
                     onSelected: (String value) {
                       searchTextController.text = value;
+                      startSearch(searchTextController.text);
                     },
                     itemBuilder: (BuildContext context) {
                       return previusSearches
@@ -173,7 +174,11 @@ class _RecipeListState extends ConsumerState<RecipeList> {
                               value: value,
                               text: value,
                               callback: () {
-                                setState(() {});
+                                setState(() {
+                                  previusSearches.remove(value);
+                                  savePreviousSearches();
+                                  Navigator.pop(context);
+                                });
                               },
                             );
                           })
@@ -250,7 +255,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
               child: CircularProgressIndicator(),
             );
           } else {
-            _buildRecipeList(context, currentSearchList);
+            return _buildRecipeList(context, currentSearchList);
           }
         }
       },
