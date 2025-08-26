@@ -1,14 +1,17 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:basic_widgets/models/recipe.dart';
 import 'package:basic_widgets/network/model_reponse.dart';
 import 'package:basic_widgets/network/query_result.dart';
 import 'package:basic_widgets/network/service_interface.dart';
+import 'package:basic_widgets/providers.dart';
 import 'package:basic_widgets/ui/theme/colors.dart';
 import 'package:basic_widgets/ui/widgets/common.dart';
 import 'package:basic_widgets/ui/widgets/custom_dropdown.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,6 +50,13 @@ class _RecipeListState extends ConsumerState<RecipeList> {
   @override
   Widget build(BuildContext context) {
     return buildRecipeList();
+  }
+
+  @override
+  void dispose() {
+    searchTextController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Widget buildRecipeList() {
@@ -136,7 +146,9 @@ class _RecipeListState extends ConsumerState<RecipeList> {
                       ),
                       autofocus: false,
                       textInputAction: TextInputAction.done,
-                      onSubmitted: (value) {},
+                      onSubmitted: (value) {
+                        startSearch(value);
+                      },
                       controller: searchTextController,
                     ),
                   ),
@@ -229,8 +241,58 @@ class _RecipeListState extends ConsumerState<RecipeList> {
                 ),
               ),
             );
-          } else {}
-        } else {}
+          } else {
+            return _buildRecipeList(context, currentSearchList);
+          }
+        } else {
+          if (currentCount == 0) {
+            return const SliverFillRemaining(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            _buildRecipeList(context, currentSearchList);
+          }
+        }
+      },
+    );
+  }
+
+  Widget _buildRecipeList(BuildContext context, List<Recipe> recipes) {
+    return SliverLayoutBuilder(
+      builder: (BuildContext context, SliverConstraints constraints) {
+        final numColumn = max(1, constraints.crossAxisExtent ~/ 264);
+        return SliverGrid(
+          delegate: SliverChildBuilderDelegate(childCount: recipes.length, (
+            BuildContext context,
+            int index,
+          ) {
+            return _buildRecipeCard(context, recipes, index);
+          }),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: numColumn,
+            mainAxisExtent: 164,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRecipeCard(
+    BuildContext topLevelContext,
+    List<Recipe> recipes,
+    int index,
+  ) {
+    final recipe = recipes[index];
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          topLevelContext,
+          MaterialPageRoute(
+            builder: (context) {
+              return Text("RecipeDetail: ${recipe.description}");
+            },
+          ),
+        );
       },
     );
   }
@@ -261,5 +323,41 @@ class _RecipeListState extends ConsumerState<RecipeList> {
         ),
       ],
     );
+  }
+
+  void startSearch(String value) {
+    if (value.isEmpty) {
+      return;
+    }
+    setState(() {
+      currentSearchList.clear();
+      newDataRequired = true;
+      currentCount = 0;
+      currentEndPosition = pageCount;
+      currentStartPosition = 0;
+      hasMore = false;
+      value = value.trim();
+      if (!previusSearches.contains(value)) {
+        previusSearches.add(value);
+        savePreviousSearches();
+      }
+    });
+  }
+
+  void savePreviousSearches() async {
+    final prefres = ref.read(sharedPrefProvider);
+    prefres.setStringList(prefSearchKey, previusSearches);
+  }
+
+  void getPreviousSearches() async {
+    final prefs = ref.read(sharedPrefProvider);
+    if (prefs.containsKey(prefSearchKey)) {
+      final searchs = prefs.getStringList(prefSearchKey);
+      if (searchs != null) {
+        previusSearches = searchs;
+      } else {
+        previusSearches = [];
+      }
+    }
   }
 }
