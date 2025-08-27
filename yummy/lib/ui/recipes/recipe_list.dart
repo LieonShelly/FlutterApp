@@ -6,6 +6,7 @@ import 'package:basic_widgets/network/query_result.dart';
 import 'package:basic_widgets/network/service_interface.dart';
 import 'package:basic_widgets/providers.dart';
 import 'package:basic_widgets/ui/recipes/recipe_card.dart';
+import 'package:basic_widgets/ui/recipes/recipe_details.dart';
 import 'package:basic_widgets/ui/theme/colors.dart';
 import 'package:basic_widgets/ui/widgets/common.dart';
 import 'package:basic_widgets/ui/widgets/custom_dropdown.dart';
@@ -294,7 +295,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
           topLevelContext,
           MaterialPageRoute(
             builder: (context) {
-              return Text("RecipeDetail: ${recipe.description}");
+              return RecipeDetails(recipe: recipe);
             },
           ),
         );
