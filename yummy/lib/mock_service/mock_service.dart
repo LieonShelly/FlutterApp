@@ -1,8 +1,10 @@
-import 'dart:nativewrappers/_internal/vm/lib/math_patch.dart';
-
+import 'dart:convert';
+import 'dart:math';
 import 'package:basic_widgets/models/recipe.dart';
+import 'package:basic_widgets/network/model_reponse.dart';
 import 'package:basic_widgets/network/query_result.dart';
 import 'package:basic_widgets/network/service_interface.dart';
+import 'package:basic_widgets/network/spoonacular_model.dart';
 import 'package:flutter/services.dart';
 
 class MockService implements ServiceInterface {
@@ -19,5 +21,51 @@ class MockService implements ServiceInterface {
 
   Future loadRecipes() async {
     var josnString = await rootBundle.loadString('assets/recipes1.json');
+    var spoonacularResults = SpoonacularResults.fromJson(
+      jsonDecode(josnString),
+    );
+    var recipes = spoonacularResultsToRecipe(spoonacularResults);
+    var apiQueryResults = QueryResult(
+      offset: spoonacularResults.offset,
+      number: spoonacularResults.number,
+      totalResults: spoonacularResults.totalResults,
+      recipes: recipes,
+    );
+    _currentRecipes1 = apiQueryResults;
+
+    josnString = await rootBundle.loadString('assets/recipes2.json');
+    spoonacularResults = SpoonacularResults.fromJson(jsonDecode(josnString));
+    recipes = spoonacularResultsToRecipe(spoonacularResults);
+    apiQueryResults = QueryResult(
+      offset: spoonacularResults.offset,
+      number: spoonacularResults.number,
+      totalResults: spoonacularResults.totalResults,
+      recipes: recipes,
+    );
+    _currentRecipes2 = apiQueryResults;
+
+    josnString = await rootBundle.loadString('assets/recipe_details.json');
+    final spoonacularRecipe = SpoonacularRecipe.fromJson(
+      jsonDecode(josnString),
+    );
+    spoonacularRecipe.id = recipes[0].id!;
+    recipeDetails = spoonacularRecipeToRecipe(spoonacularRecipe);
+  }
+
+  @override
+  Future<RecipeResponse> queryRecipes(String query, int offset, int number) {
+    switch (nextRecipe.nextInt(2)) {
+      case 0:
+        return Future.value(Success<QueryResult>(_currentRecipes1));
+      case 1:
+        return Future.value(Success<QueryResult>(_currentRecipes2));
+      default:
+        return Future.value(Success<QueryResult>(_currentRecipes1));
+    }
+  }
+
+  @override
+  Future<RecipeDetailResponse> queryRecipe(String id) {
+    return Future.value(Success<Recipe>(recipeDetails));
   }
 }
