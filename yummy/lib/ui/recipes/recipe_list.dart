@@ -38,8 +38,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
   bool inErrorState = false;
   List<String> previusSearches = [];
   ListType currentType = ListType.all;
-  // netowrk response
-  // ...
+  Future<RecipeResponse>? currentResponse;
   bool newDataRequired = true;
 
   @override
@@ -303,7 +302,17 @@ class _RecipeListState extends ConsumerState<RecipeList> {
   }
 
   Future<RecipeResponse> fetchData() async {
-    return Future.error('No data found');
+    if (!newDataRequired && currentResponse != null) {
+      return currentResponse!;
+    }
+    newDataRequired = false;
+    final recipeService = ref.watch(serviceProvider);
+    currentResponse = recipeService.queryRecipes(
+      searchTextController.text.trim(),
+      currentStartPosition,
+      pageCount,
+    );
+    return currentResponse ?? Future.error('No Data found');
   }
 
   Widget buildScrollList(List<Widget> topList, Widget bottomWidget) {
