@@ -12,7 +12,7 @@ final serviceProvider = Provider<ServiceInterface>((ref) {
   throw UnimplementedError();
 });
 
-final respositoryProvider =
+final repositoryProvider =
     NotifierProvider<MemoryRepository, CurrentRecipeData>(() {
       return MemoryRepository();
     });

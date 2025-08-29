@@ -5,6 +5,7 @@ import 'package:basic_widgets/network/model_reponse.dart';
 import 'package:basic_widgets/network/query_result.dart';
 import 'package:basic_widgets/network/service_interface.dart';
 import 'package:basic_widgets/providers.dart';
+import 'package:basic_widgets/ui/bookmarks/bookmarks.dart';
 import 'package:basic_widgets/ui/recipes/recipe_card.dart';
 import 'package:basic_widgets/ui/recipes/recipe_details.dart';
 import 'package:basic_widgets/ui/theme/colors.dart';
@@ -51,7 +52,12 @@ class _RecipeListState extends ConsumerState<RecipeList> {
 
   @override
   Widget build(BuildContext context) {
-    return buildRecipeList();
+    switch (currentType) {
+      case ListType.all:
+        return buildRecipeList();
+      case ListType.bookmarks:
+        return buildBookmarkList();
+    }
   }
 
   @override
@@ -59,6 +65,13 @@ class _RecipeListState extends ConsumerState<RecipeList> {
     searchTextController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Widget buildBookmarkList() {
+    return buildScrollList([
+      buildHeader(),
+      _buildTypePicker(),
+    ], const Bookmarks());
   }
 
   Widget buildRecipeList() {

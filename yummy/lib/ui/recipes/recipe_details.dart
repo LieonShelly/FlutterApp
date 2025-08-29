@@ -112,7 +112,7 @@ class _RecipeDetailsState extends ConsumerState<RecipeDetails> {
   }
 
   Widget titleRow() {
-    final repository = ref.read(respositoryProvider.notifier);
+    final repository = ref.read(repositoryProvider.notifier);
     final titleRowColor = widget.recipe.bookmarked
         ? Colors.black
         : Colors.white;

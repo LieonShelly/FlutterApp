@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:basic_widgets/models/ingredient.dart';
+import 'package:basic_widgets/providers.dart';
 import 'package:basic_widgets/ui/theme/colors.dart';
 import 'package:basic_widgets/ui/widgets/common.dart';
 import 'package:basic_widgets/ui/widgets/ingredient_card.dart';
@@ -40,12 +41,23 @@ class _GroceryListState extends ConsumerState<GroceryList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Column(children: [_buildHeader(), buildSearchRow()]));
+    return Scaffold(
+      body: Column(
+        children: [
+          _buildHeader(),
+          buildSearchRow(),
+          showAll ? buildIngredientList() : buildNededHaveList(),
+        ],
+      ),
+    );
   }
 
   Widget buildNededHaveList() {
+    final repository = ref.watch(repositoryProvider);
+    currentIngredients = repository.curentIngredients;
     final needListIndexes = <int, bool>{};
     final haveListIndexes = <int, bool>{};
+
     final ingredients = currentIngredients;
     for (var index = 0; index < ingredients.length; index++) {
       if (!checkBoxValue.containsKey(index)) {
@@ -163,6 +175,8 @@ class _GroceryListState extends ConsumerState<GroceryList> {
   }
 
   Widget buildIngredientList() {
+    final repository = ref.watch(repositoryProvider);
+    currentIngredients = repository.curentIngredients;
     if (searching) {
       startSearch(searchTextController.text);
       return ingredientList(searchIngredients, checkBoxValue, true);
@@ -218,7 +232,9 @@ class _GroceryListState extends ConsumerState<GroceryList> {
 
   void startSearch(String searchString) {
     searching = searchString.isNotEmpty;
-    searchIngredients = currentIngredients
+    searchIngredients = ref
+        .read(repositoryProvider.notifier)
+        .findAllIngredients()
         .where((element) => true == element.name?.contains(searchString))
         .toList();
     setState(() {});
