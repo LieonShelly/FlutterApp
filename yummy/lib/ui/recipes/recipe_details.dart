@@ -112,6 +112,7 @@ class _RecipeDetailsState extends ConsumerState<RecipeDetails> {
   }
 
   Widget titleRow() {
+    final repository = ref.read(respositoryProvider.notifier);
     final titleRowColor = widget.recipe.bookmarked
         ? Colors.black
         : Colors.white;
@@ -143,6 +144,13 @@ class _RecipeDetailsState extends ConsumerState<RecipeDetails> {
 
             IconButton(
               onPressed: () {
+                if (!widget.recipe.bookmarked) {
+                  if (recipeDetail != null) {
+                    repository.insertRecipe(recipeDetail!);
+                  }
+                } else {
+                  repository.deleteRecipe(recipeDetail!);
+                }
                 Navigator.pop(context);
               },
               icon: SvgPicture.asset(
