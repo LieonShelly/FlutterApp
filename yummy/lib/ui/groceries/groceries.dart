@@ -115,7 +115,7 @@ class _GroceryListState extends ConsumerState<GroceryList> {
                   ),
                   focusNode: searchFocusNode,
                   autofocus: true,
-                  textInputAction: TextInputAction.none,
+                  textInputAction: TextInputAction.done,
                   onSubmitted: (vallue) {
                     startSearch(searchTextController.text);
                   },

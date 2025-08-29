@@ -34,10 +34,10 @@ class _RecipeDetailsState extends ConsumerState<RecipeDetails> {
     final resposne = await ref
         .read(serviceProvider)
         .queryRecipe(widget.recipe.id.toString());
-    final result = resposne;
+    final result = resposne.body;
     if (result is Success<Recipe>) {
-      final body = result.value;
-      recipeDetail = body;
+      final body = result;
+      recipeDetail = body.value;
       if (mounted) {
         setState(() {});
       }

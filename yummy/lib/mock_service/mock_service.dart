@@ -6,6 +6,8 @@ import 'package:basic_widgets/network/query_result.dart';
 import 'package:basic_widgets/network/service_interface.dart';
 import 'package:basic_widgets/network/spoonacular_model.dart';
 import 'package:flutter/services.dart';
+import 'package:chopper/chopper.dart' as chopper;
+import 'package:http/http.dart' as http;
 
 class MockService implements ServiceInterface {
   late QueryResult _currentRecipes1;
@@ -56,16 +58,34 @@ class MockService implements ServiceInterface {
   Future<RecipeResponse> queryRecipes(String query, int offset, int number) {
     switch (nextRecipe.nextInt(2)) {
       case 0:
-        return Future.value(Success<QueryResult>(_currentRecipes1));
+        return Future.value(
+          chopper.Response(
+            http.Response('Dummy', 200, request: null),
+            Success<QueryResult>(_currentRecipes1),
+          ),
+        );
       case 1:
-        return Future.value(Success<QueryResult>(_currentRecipes2));
+        return Future.value(
+          chopper.Response(
+            http.Response('Dummy', 200, request: null),
+            Success<QueryResult>(_currentRecipes2),
+          ),
+        );
       default:
-        return Future.value(Success<QueryResult>(_currentRecipes1));
+        return Future.value(
+          chopper.Response(
+            http.Response('Dummy', 200, request: null),
+            Success<QueryResult>(_currentRecipes1),
+          ),
+        );
     }
   }
 
   @override
   Future<RecipeDetailResponse> queryRecipe(String id) {
-    return Future.value(Success<Recipe>(recipeDetails));
+    final result = Success<Recipe>(recipeDetails);
+    return Future.value(
+      chopper.Response(http.Response('Dummy', 200, request: null), result),
+    );
   }
 }

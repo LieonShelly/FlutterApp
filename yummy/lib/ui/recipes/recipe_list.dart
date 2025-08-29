@@ -45,6 +45,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
   @override
   void initState() {
     super.initState();
+    getPreviousSearches();
     searchTextController = TextEditingController(text: "");
   }
 
@@ -227,7 +228,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
               ),
             );
           }
-          final query = (result as Success).value as QueryResult;
+          final query = (result!.body as Success).value as QueryResult;
           inErrorState = false;
           currentCount = query.totalResults;
           hasMore = query.totalResults > query.offset + query.number;
@@ -253,7 +254,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
         } else {
           if (currentCount == 0) {
             return const SliverFillRemaining(
-              child: CircularProgressIndicator(),
+              child: Center(child: CircularProgressIndicator()),
             );
           } else {
             return _buildRecipeList(context, currentSearchList);

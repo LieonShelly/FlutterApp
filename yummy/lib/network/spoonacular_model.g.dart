@@ -42,16 +42,16 @@ Map<String, dynamic> _$SpoonacularResultsToJson(SpoonacularResults instance) =>
 
 SpoonacularRecipe _$SpoonacularRecipeFromJson(Map<String, dynamic> json) =>
     SpoonacularRecipe(
-      preparationMinutes: (json['preparationMinutes'] as num).toInt(),
-      cookingMinutes: (json['cookingMinutes'] as num).toInt(),
+      preparationMinutes: (json['preparationMinutes'] as num?)?.toInt(),
+      cookingMinutes: (json['cookingMinutes'] as num?)?.toInt(),
       sourceName: json['sourceName'] as String,
       extendedIngredients: (json['extendedIngredients'] as List<dynamic>)
           .map((e) => ExtendedIngredient.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
-      readyInMinutes: (json['readyInMinutes'] as num).toInt(),
-      servings: (json['servings'] as num).toInt(),
+      readyInMinutes: (json['readyInMinutes'] as num?)?.toInt(),
+      servings: (json['servings'] as num?)?.toInt(),
       sourceUrl: json['sourceUrl'] as String,
       image: json['image'] as String,
       imageType: json['imageType'] as String,
