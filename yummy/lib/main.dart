@@ -1,9 +1,12 @@
 import 'package:basic_widgets/constants.dart';
 import 'package:basic_widgets/home.dart';
+import 'package:basic_widgets/mock_service/mock_service.dart';
 import 'package:basic_widgets/models/auth.dart';
 import 'package:basic_widgets/models/cart_manager.dart';
 import 'package:basic_widgets/models/order_manager.dart';
 import 'package:basic_widgets/models/restaurant.dart';
+import 'package:basic_widgets/network/http_spoonacular_service.dart';
+import 'package:basic_widgets/network/spoonacular_service.dart';
 import 'package:basic_widgets/providers.dart';
 import 'package:basic_widgets/recipe_app.dart';
 import 'package:basic_widgets/screens/login_page.dart';
@@ -16,9 +19,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPrefs = await SharedPreferences.getInstance();
+  // final mockService = await MockService.create();
+  // final httpService = HttpSpoonacularService();
+  final service = SpoonacularService.create();
   runApp(
     ProviderScope(
-      overrides: [sharedPrefProvider.overrideWithValue(sharedPrefs)],
+      overrides: [
+        sharedPrefProvider.overrideWithValue(sharedPrefs),
+        serviceProvider.overrideWithValue(service),
+      ],
       child: const RecipeApp(),
     ),
   );

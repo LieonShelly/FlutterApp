@@ -12,8 +12,7 @@ part of 'query_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 QueryResult _$QueryResultFromJson(Map<String, dynamic> json) {
   return _QueryResult.fromJson(json);
@@ -26,12 +25,8 @@ mixin _$QueryResult {
   int get totalResults => throw _privateConstructorUsedError;
   List<Recipe> get recipes => throw _privateConstructorUsedError;
 
-  /// Serializes this QueryResult to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $QueryResultCopyWith<QueryResult> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -39,9 +34,8 @@ mixin _$QueryResult {
 /// @nodoc
 abstract class $QueryResultCopyWith<$Res> {
   factory $QueryResultCopyWith(
-    QueryResult value,
-    $Res Function(QueryResult) then,
-  ) = _$QueryResultCopyWithImpl<$Res, QueryResult>;
+          QueryResult value, $Res Function(QueryResult) then) =
+      _$QueryResultCopyWithImpl<$Res, QueryResult>;
   @useResult
   $Res call({int offset, int number, int totalResults, List<Recipe> recipes});
 }
@@ -56,8 +50,6 @@ class _$QueryResultCopyWithImpl<$Res, $Val extends QueryResult>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -66,27 +58,24 @@ class _$QueryResultCopyWithImpl<$Res, $Val extends QueryResult>
     Object? totalResults = null,
     Object? recipes = null,
   }) {
-    return _then(
-      _value.copyWith(
-            offset: null == offset
-                ? _value.offset
-                : offset // ignore: cast_nullable_to_non_nullable
-                      as int,
-            number: null == number
-                ? _value.number
-                : number // ignore: cast_nullable_to_non_nullable
-                      as int,
-            totalResults: null == totalResults
-                ? _value.totalResults
-                : totalResults // ignore: cast_nullable_to_non_nullable
-                      as int,
-            recipes: null == recipes
-                ? _value.recipes
-                : recipes // ignore: cast_nullable_to_non_nullable
-                      as List<Recipe>,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      offset: null == offset
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as int,
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalResults: null == totalResults
+          ? _value.totalResults
+          : totalResults // ignore: cast_nullable_to_non_nullable
+              as int,
+      recipes: null == recipes
+          ? _value.recipes
+          : recipes // ignore: cast_nullable_to_non_nullable
+              as List<Recipe>,
+    ) as $Val);
   }
 }
 
@@ -94,9 +83,8 @@ class _$QueryResultCopyWithImpl<$Res, $Val extends QueryResult>
 abstract class _$$QueryResultImplCopyWith<$Res>
     implements $QueryResultCopyWith<$Res> {
   factory _$$QueryResultImplCopyWith(
-    _$QueryResultImpl value,
-    $Res Function(_$QueryResultImpl) then,
-  ) = __$$QueryResultImplCopyWithImpl<$Res>;
+          _$QueryResultImpl value, $Res Function(_$QueryResultImpl) then) =
+      __$$QueryResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int offset, int number, int totalResults, List<Recipe> recipes});
@@ -107,12 +95,9 @@ class __$$QueryResultImplCopyWithImpl<$Res>
     extends _$QueryResultCopyWithImpl<$Res, _$QueryResultImpl>
     implements _$$QueryResultImplCopyWith<$Res> {
   __$$QueryResultImplCopyWithImpl(
-    _$QueryResultImpl _value,
-    $Res Function(_$QueryResultImpl) _then,
-  ) : super(_value, _then);
+      _$QueryResultImpl _value, $Res Function(_$QueryResultImpl) _then)
+      : super(_value, _then);
 
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -121,38 +106,36 @@ class __$$QueryResultImplCopyWithImpl<$Res>
     Object? totalResults = null,
     Object? recipes = null,
   }) {
-    return _then(
-      _$QueryResultImpl(
-        offset: null == offset
-            ? _value.offset
-            : offset // ignore: cast_nullable_to_non_nullable
-                  as int,
-        number: null == number
-            ? _value.number
-            : number // ignore: cast_nullable_to_non_nullable
-                  as int,
-        totalResults: null == totalResults
-            ? _value.totalResults
-            : totalResults // ignore: cast_nullable_to_non_nullable
-                  as int,
-        recipes: null == recipes
-            ? _value._recipes
-            : recipes // ignore: cast_nullable_to_non_nullable
-                  as List<Recipe>,
-      ),
-    );
+    return _then(_$QueryResultImpl(
+      offset: null == offset
+          ? _value.offset
+          : offset // ignore: cast_nullable_to_non_nullable
+              as int,
+      number: null == number
+          ? _value.number
+          : number // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalResults: null == totalResults
+          ? _value.totalResults
+          : totalResults // ignore: cast_nullable_to_non_nullable
+              as int,
+      recipes: null == recipes
+          ? _value._recipes
+          : recipes // ignore: cast_nullable_to_non_nullable
+              as List<Recipe>,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$QueryResultImpl implements _QueryResult {
-  const _$QueryResultImpl({
-    required this.offset,
-    required this.number,
-    required this.totalResults,
-    required final List<Recipe> recipes,
-  }) : _recipes = recipes;
+  const _$QueryResultImpl(
+      {required this.offset,
+      required this.number,
+      required this.totalResults,
+      required final List<Recipe> recipes})
+      : _recipes = recipes;
 
   factory _$QueryResultImpl.fromJson(Map<String, dynamic> json) =>
       _$$QueryResultImplFromJson(json);
@@ -188,19 +171,12 @@ class _$QueryResultImpl implements _QueryResult {
             const DeepCollectionEquality().equals(other._recipes, _recipes));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    offset,
-    number,
-    totalResults,
-    const DeepCollectionEquality().hash(_recipes),
-  );
+  int get hashCode => Object.hash(runtimeType, offset, number, totalResults,
+      const DeepCollectionEquality().hash(_recipes));
 
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$QueryResultImplCopyWith<_$QueryResultImpl> get copyWith =>
@@ -208,17 +184,18 @@ class _$QueryResultImpl implements _QueryResult {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$QueryResultImplToJson(this);
+    return _$$QueryResultImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _QueryResult implements QueryResult {
-  const factory _QueryResult({
-    required final int offset,
-    required final int number,
-    required final int totalResults,
-    required final List<Recipe> recipes,
-  }) = _$QueryResultImpl;
+  const factory _QueryResult(
+      {required final int offset,
+      required final int number,
+      required final int totalResults,
+      required final List<Recipe> recipes}) = _$QueryResultImpl;
 
   factory _QueryResult.fromJson(Map<String, dynamic> json) =
       _$QueryResultImpl.fromJson;
@@ -231,11 +208,8 @@ abstract class _QueryResult implements QueryResult {
   int get totalResults;
   @override
   List<Recipe> get recipes;
-
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$QueryResultImplCopyWith<_$QueryResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

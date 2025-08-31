@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:basic_widgets/models/recipe.dart';
@@ -6,6 +5,9 @@ import 'package:basic_widgets/network/model_reponse.dart';
 import 'package:basic_widgets/network/query_result.dart';
 import 'package:basic_widgets/network/service_interface.dart';
 import 'package:basic_widgets/providers.dart';
+import 'package:basic_widgets/ui/bookmarks/bookmarks.dart';
+import 'package:basic_widgets/ui/recipes/recipe_card.dart';
+import 'package:basic_widgets/ui/recipes/recipe_details.dart';
 import 'package:basic_widgets/ui/theme/colors.dart';
 import 'package:basic_widgets/ui/widgets/common.dart';
 import 'package:basic_widgets/ui/widgets/custom_dropdown.dart';
@@ -38,18 +40,24 @@ class _RecipeListState extends ConsumerState<RecipeList> {
   bool inErrorState = false;
   List<String> previusSearches = [];
   ListType currentType = ListType.all;
-  // netowrk response
-  // ...
+  Future<RecipeResponse>? currentResponse;
   bool newDataRequired = true;
 
   @override
   void initState() {
+    super.initState();
+    getPreviousSearches();
     searchTextController = TextEditingController(text: "");
   }
 
   @override
   Widget build(BuildContext context) {
-    return buildRecipeList();
+    switch (currentType) {
+      case ListType.all:
+        return buildRecipeList();
+      case ListType.bookmarks:
+        return buildBookmarkList();
+    }
   }
 
   @override
@@ -57,6 +65,13 @@ class _RecipeListState extends ConsumerState<RecipeList> {
     searchTextController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Widget buildBookmarkList() {
+    return buildScrollList([
+      buildHeader(),
+      _buildTypePicker(),
+    ], const Bookmarks());
   }
 
   Widget buildRecipeList() {
@@ -165,6 +180,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
                     icon: const Icon(Icons.arrow_drop_down, color: lightGrey),
                     onSelected: (String value) {
                       searchTextController.text = value;
+                      startSearch(searchTextController.text);
                     },
                     itemBuilder: (BuildContext context) {
                       return previusSearches
@@ -173,7 +189,11 @@ class _RecipeListState extends ConsumerState<RecipeList> {
                               value: value,
                               text: value,
                               callback: () {
-                                setState(() {});
+                                setState(() {
+                                  previusSearches.remove(value);
+                                  savePreviousSearches();
+                                  Navigator.pop(context);
+                                });
                               },
                             );
                           })
@@ -209,7 +229,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
           }
           loading = false;
           final result = snapshot.data;
-          if (result is Error) {
+          if (result is Error || result?.body == null) {
             const errorMessage = 'Problems getting data';
             return const SliverFillRemaining(
               child: Center(
@@ -221,7 +241,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
               ),
             );
           }
-          final query = (result as Success).value as QueryResult;
+          final query = (result!.body as Success).value as QueryResult;
           inErrorState = false;
           currentCount = query.totalResults;
           hasMore = query.totalResults > query.offset + query.number;
@@ -247,10 +267,10 @@ class _RecipeListState extends ConsumerState<RecipeList> {
         } else {
           if (currentCount == 0) {
             return const SliverFillRemaining(
-              child: CircularProgressIndicator(),
+              child: Center(child: CircularProgressIndicator()),
             );
           } else {
-            _buildRecipeList(context, currentSearchList);
+            return _buildRecipeList(context, currentSearchList);
           }
         }
       },
@@ -270,7 +290,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
           }),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: numColumn,
-            mainAxisExtent: 164,
+            mainAxisExtent: 330,
           ),
         );
       },
@@ -289,16 +309,27 @@ class _RecipeListState extends ConsumerState<RecipeList> {
           topLevelContext,
           MaterialPageRoute(
             builder: (context) {
-              return Text("RecipeDetail: ${recipe.description}");
+              return RecipeDetails(recipe: recipe);
             },
           ),
         );
       },
+      child: recipeCard(recipe),
     );
   }
 
   Future<RecipeResponse> fetchData() async {
-    return Future.error('No data found');
+    if (!newDataRequired && currentResponse != null) {
+      return currentResponse!;
+    }
+    newDataRequired = false;
+    final recipeService = ref.watch(serviceProvider);
+    currentResponse = recipeService.queryRecipes(
+      searchTextController.text.trim(),
+      currentStartPosition,
+      pageCount,
+    );
+    return currentResponse ?? Future.error('No Data found');
   }
 
   Widget buildScrollList(List<Widget> topList, Widget bottomWidget) {

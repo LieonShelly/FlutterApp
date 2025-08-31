@@ -12,8 +12,7 @@ part of 'ingredient.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Ingredient _$IngredientFromJson(Map<String, dynamic> json) {
   return _Ingredient.fromJson(json);
@@ -27,12 +26,8 @@ mixin _$Ingredient {
   double? get amount => throw _privateConstructorUsedError;
   double? get weight => throw _privateConstructorUsedError;
 
-  /// Serializes this Ingredient to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Ingredient
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IngredientCopyWith<Ingredient> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -40,17 +35,11 @@ mixin _$Ingredient {
 /// @nodoc
 abstract class $IngredientCopyWith<$Res> {
   factory $IngredientCopyWith(
-    Ingredient value,
-    $Res Function(Ingredient) then,
-  ) = _$IngredientCopyWithImpl<$Res, Ingredient>;
+          Ingredient value, $Res Function(Ingredient) then) =
+      _$IngredientCopyWithImpl<$Res, Ingredient>;
   @useResult
-  $Res call({
-    int? id,
-    int? recipeId,
-    String? name,
-    double? amount,
-    double? weight,
-  });
+  $Res call(
+      {int? id, int? recipeId, String? name, double? amount, double? weight});
 }
 
 /// @nodoc
@@ -63,8 +52,6 @@ class _$IngredientCopyWithImpl<$Res, $Val extends Ingredient>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Ingredient
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -74,31 +61,28 @@ class _$IngredientCopyWithImpl<$Res, $Val extends Ingredient>
     Object? amount = freezed,
     Object? weight = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            id: freezed == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            recipeId: freezed == recipeId
-                ? _value.recipeId
-                : recipeId // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            name: freezed == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            amount: freezed == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            weight: freezed == weight
-                ? _value.weight
-                : weight // ignore: cast_nullable_to_non_nullable
-                      as double?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      recipeId: freezed == recipeId
+          ? _value.recipeId
+          : recipeId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      weight: freezed == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
   }
 }
 
@@ -106,18 +90,12 @@ class _$IngredientCopyWithImpl<$Res, $Val extends Ingredient>
 abstract class _$$IngredientImplCopyWith<$Res>
     implements $IngredientCopyWith<$Res> {
   factory _$$IngredientImplCopyWith(
-    _$IngredientImpl value,
-    $Res Function(_$IngredientImpl) then,
-  ) = __$$IngredientImplCopyWithImpl<$Res>;
+          _$IngredientImpl value, $Res Function(_$IngredientImpl) then) =
+      __$$IngredientImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int? id,
-    int? recipeId,
-    String? name,
-    double? amount,
-    double? weight,
-  });
+  $Res call(
+      {int? id, int? recipeId, String? name, double? amount, double? weight});
 }
 
 /// @nodoc
@@ -125,12 +103,9 @@ class __$$IngredientImplCopyWithImpl<$Res>
     extends _$IngredientCopyWithImpl<$Res, _$IngredientImpl>
     implements _$$IngredientImplCopyWith<$Res> {
   __$$IngredientImplCopyWithImpl(
-    _$IngredientImpl _value,
-    $Res Function(_$IngredientImpl) _then,
-  ) : super(_value, _then);
+      _$IngredientImpl _value, $Res Function(_$IngredientImpl) _then)
+      : super(_value, _then);
 
-  /// Create a copy of Ingredient
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,43 +115,36 @@ class __$$IngredientImplCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? weight = freezed,
   }) {
-    return _then(
-      _$IngredientImpl(
-        id: freezed == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        recipeId: freezed == recipeId
-            ? _value.recipeId
-            : recipeId // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        name: freezed == name
-            ? _value.name
-            : name // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        amount: freezed == amount
-            ? _value.amount
-            : amount // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        weight: freezed == weight
-            ? _value.weight
-            : weight // ignore: cast_nullable_to_non_nullable
-                  as double?,
-      ),
-    );
+    return _then(_$IngredientImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      recipeId: freezed == recipeId
+          ? _value.recipeId
+          : recipeId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      weight: freezed == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$IngredientImpl implements _Ingredient {
-  const _$IngredientImpl({
-    this.id,
-    this.recipeId,
-    this.name,
-    this.amount,
-    this.weight,
-  });
+  const _$IngredientImpl(
+      {this.id, this.recipeId, this.name, this.amount, this.weight});
 
   factory _$IngredientImpl.fromJson(Map<String, dynamic> json) =>
       _$$IngredientImplFromJson(json);
@@ -210,14 +178,12 @@ class _$IngredientImpl implements _Ingredient {
             (identical(other.weight, weight) || other.weight == weight));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, id, recipeId, name, amount, weight);
 
-  /// Create a copy of Ingredient
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IngredientImplCopyWith<_$IngredientImpl> get copyWith =>
@@ -225,18 +191,19 @@ class _$IngredientImpl implements _Ingredient {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$IngredientImplToJson(this);
+    return _$$IngredientImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Ingredient implements Ingredient {
-  const factory _Ingredient({
-    final int? id,
-    final int? recipeId,
-    final String? name,
-    final double? amount,
-    final double? weight,
-  }) = _$IngredientImpl;
+  const factory _Ingredient(
+      {final int? id,
+      final int? recipeId,
+      final String? name,
+      final double? amount,
+      final double? weight}) = _$IngredientImpl;
 
   factory _Ingredient.fromJson(Map<String, dynamic> json) =
       _$IngredientImpl.fromJson;
@@ -251,11 +218,8 @@ abstract class _Ingredient implements Ingredient {
   double? get amount;
   @override
   double? get weight;
-
-  /// Create a copy of Ingredient
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IngredientImplCopyWith<_$IngredientImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -28,7 +28,7 @@ class _CustomDropdownMenuItemState<T> extends State<CustomDropdownMenuItem<T>> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 120),
+      constraints: const BoxConstraints(minWidth: 120),
       child: InkWell(
         onTap: () => Navigator.of(context).pop<T>(widget.value),
         child: Container(
@@ -45,7 +45,11 @@ class _CustomDropdownMenuItemState<T> extends State<CustomDropdownMenuItem<T>> {
                 ),
               ),
               trailing: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  if (widget.callback != null) {
+                    widget.callback!();
+                  }
+                },
                 child: SvgPicture.asset(
                   'assets/images/dismiss.svg',
                   colorFilter: const ColorFilter.mode(
