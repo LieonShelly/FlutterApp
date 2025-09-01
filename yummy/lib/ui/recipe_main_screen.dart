@@ -16,7 +16,6 @@ class RecipeMainScreen extends ConsumerStatefulWidget {
 }
 
 class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
-  int _selectedIndex = 0;
   List<Widget> pageList = <Widget>[];
   static const String preSelectedIndexKey = 'selectedIndex';
 
@@ -25,7 +24,9 @@ class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
     super.initState();
     pageList.add(const RecipeList());
     pageList.add(const GroceryList());
-    getCurrentIndex();
+    Future.microtask(() async {
+      getCurrentIndex();
+    });
   }
 
   @override
@@ -37,7 +38,10 @@ class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
     return Scaffold(
       bottomNavigationBar: createBottomNavigatioBar(),
       body: SafeArea(
-        child: IndexedStack(index: _selectedIndex, children: pageList),
+        child: IndexedStack(
+          index: ref.watch(bottomNavigatioProvider).selectedIndex,
+          children: pageList,
+        ),
       ),
     );
   }
@@ -45,12 +49,10 @@ class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
   void getCurrentIndex() async {
     final prefs = ref.read(sharedPrefProvider);
     if (prefs.containsKey(preSelectedIndexKey)) {
-      setState(() {
-        final index = prefs.getInt(preSelectedIndexKey);
-        if (index != null) {
-          _selectedIndex = index;
-        }
-      });
+      final index = prefs.getInt(preSelectedIndexKey);
+      if (index != null) {
+        ref.read(bottomNavigatioProvider.notifier).updateSelectedIndex(index);
+      }
     }
   }
 
@@ -61,9 +63,12 @@ class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
     final backgroundColor = isDarkMode
         ? darkBackgroundColor
         : smallCardBackgroundColor;
+    final bottomNavigationIndex = ref
+        .watch(bottomNavigatioProvider)
+        .selectedIndex;
     return BottomNavigationBar(
       backgroundColor: backgroundColor,
-      currentIndex: _selectedIndex,
+      currentIndex: bottomNavigationIndex,
       selectedItemColor: selectedColor,
       unselectedItemColor: Colors.grey,
       items: [
@@ -71,7 +76,7 @@ class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
           icon: SvgPicture.asset(
             "assets/images/icon_recipe.svg",
             colorFilter: ColorFilter.mode(
-              _selectedIndex == 0 ? selectedColor : unSelectedItemColor,
+              bottomNavigationIndex == 0 ? selectedColor : unSelectedItemColor,
               BlendMode.srcIn,
             ),
             semanticsLabel: "Recipes",
@@ -79,13 +84,13 @@ class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
           label: "Recipes",
         ),
         BottomNavigationBarItem(
-          backgroundColor: _selectedIndex == 1
+          backgroundColor: bottomNavigationIndex == 1
               ? iconBackgroundColor
               : Colors.black,
           icon: SvgPicture.asset(
             'assets/images/shopping_cart.svg',
             colorFilter: ColorFilter.mode(
-              _selectedIndex == 1 ? selectedColor : unSelectedItemColor,
+              bottomNavigationIndex == 1 ? selectedColor : unSelectedItemColor,
               BlendMode.srcIn,
             ),
             semanticsLabel: "Groceries",
@@ -98,21 +103,13 @@ class _RecipeMainScreenState extends ConsumerState<RecipeMainScreen> {
   }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    ref.read(bottomNavigatioProvider.notifier).updateSelectedIndex(index);
     saveCurrentIndex();
   }
 
   void saveCurrentIndex() async {
     final prefrs = ref.read(sharedPrefProvider);
-    if (prefrs.containsKey(preSelectedIndexKey)) {
-      setState(() {
-        final index = prefrs.getInt(preSelectedIndexKey);
-        if (index != null) {
-          _selectedIndex = index;
-        }
-      });
-    }
+    final bottomNavigation = ref.read(bottomNavigatioProvider);
+    prefrs.setInt(preSelectedIndexKey, bottomNavigation.selectedIndex);
   }
 }

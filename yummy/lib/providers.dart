@@ -1,6 +1,7 @@
 import 'package:basic_widgets/data/repositories/memory_repository.dart';
 import 'package:basic_widgets/models/current_recipe_data.dart';
 import 'package:basic_widgets/network/service_interface.dart';
+import 'package:basic_widgets/ui/recipe_main_screen_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,3 +17,10 @@ final repositoryProvider =
     NotifierProvider<MemoryRepository, CurrentRecipeData>(() {
       return MemoryRepository();
     });
+
+final bottomNavigatioProvider =
+    StateNotifierProvider<RecipeMainScreenStateProvider, RecipeMainScreenState>(
+      (ref) {
+        return RecipeMainScreenStateProvider();
+      },
+    );
