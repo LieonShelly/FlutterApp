@@ -1,12 +1,40 @@
+import 'dart:async';
+
 import 'package:basic_widgets/data/repositories/repository.dart';
 import 'package:basic_widgets/models/ingredient.dart';
 import 'package:basic_widgets/models/recipe.dart';
 import 'package:chopper/chopper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/current_recipe_data.dart';
 
 class MemoryRepository extends Notifier<CurrentRecipeData>
     implements Repository {
+  late Stream<List<Recipe>> _recipeStream;
+  late Stream<List<Ingredient>> _ingredientStrem;
+  final StreamController _recipeStreamController =
+      StreamController<List<Recipe>>();
+  final StreamController _ingredientStreamContoller =
+      StreamController<List<Ingredient>>();
+
+  MemoryRepository() {
+    _recipeStream =
+        _recipeStreamController.stream.asBroadcastStream(
+              onListen: (subscription) {
+                _recipeStreamController.sink.add(state.currentRecipes);
+              },
+            )
+            as Stream<List<Recipe>>;
+
+    _ingredientStrem =
+        _ingredientStreamContoller.stream.asBroadcastStream(
+              onListen: (subscription) {
+                _ingredientStreamContoller.sink.add(state.curentIngredients);
+              },
+            )
+            as Stream<List<Ingredient>>;
+  }
+
   @override
   CurrentRecipeData build() {
     const currentRecipeData = CurrentRecipeData();
@@ -17,57 +45,73 @@ class MemoryRepository extends Notifier<CurrentRecipeData>
   void close() {}
 
   @override
-  void deleteIngredient(Ingredient ingredient) {
+  Future<void> deleteIngredient(Ingredient ingredient) {
     final updateList = [...state.curentIngredients];
     updateList.remove(ingredient);
     state = state.copyWith(curentIngredients: updateList);
+
+    _ingredientStreamContoller.sink.add(state.curentIngredients);
+    return Future.value();
   }
 
   @override
-  void deleteIngredients(List<Ingredient> ingredients) {
+  Future<void> deleteIngredients(List<Ingredient> ingredients) {
     final updatedList = [...state.curentIngredients];
     updatedList.removeWhere((ingredient) => ingredients.contains(ingredient));
     state = state.copyWith(curentIngredients: updatedList);
+
+    _ingredientStreamContoller.sink.add(state.curentIngredients);
+    return Future.value();
   }
 
   @override
-  void deleteRecipe(Recipe recipe) {
+  Future<void> deleteRecipe(Recipe recipe) {
     final updatedList = [...state.currentRecipes];
     updatedList.remove(recipe);
     state = state.copyWith(currentRecipes: updatedList);
+    _recipeStreamController.sink.add(state.currentRecipes);
+    if (recipe.id != null) {
+      deleteRecipeIngredients(recipe.id!);
+    }
+    return Future.value();
   }
 
   @override
-  void deleteRecipeIngredients(int recipeId) {
+  Future<void> deleteRecipeIngredients(int recipeId) {
     final updatedList = [...state.curentIngredients];
     updatedList.removeWhere((ingredient) => ingredient.recipeId == recipeId);
     state = state.copyWith(curentIngredients: updatedList);
+
+    _ingredientStreamContoller.sink.add(state.curentIngredients);
+    return Future.value();
   }
 
   @override
-  List<Ingredient> findAllIngredients() {
-    return state.curentIngredients;
+  Future<List<Ingredient>> findAllIngredients() {
+    return Future.value(state.curentIngredients);
   }
 
   @override
-  List<Recipe> findAllRecipes() {
-    return state.currentRecipes;
+  Future<List<Recipe>> findAllRecipes() {
+    return Future.value(state.currentRecipes);
   }
 
   @override
-  Recipe findRecipeById(int id) {
-    return state.currentRecipes.firstWhere((recipe) => recipe.id == id);
+  Future<Recipe> findRecipeById(int id) {
+    return Future.value(
+      state.currentRecipes.firstWhere((recipe) => recipe.id == id),
+    );
   }
 
   @override
-  List<Ingredient> findRecipeIngredients(int recipeId) {
+  Future<List<Ingredient>> findRecipeIngredients(int recipeId) {
     final recipe = state.currentRecipes.firstWhere(
       (recipe) => recipe.id == recipeId,
     );
     final recipeIngredients = state.curentIngredients
         .where((ingredient) => ingredient.recipeId == recipe.id)
         .toList();
-    return recipeIngredients;
+    return Future.value(recipeIngredients);
   }
 
   @override
@@ -76,22 +120,34 @@ class MemoryRepository extends Notifier<CurrentRecipeData>
   }
 
   @override
-  List<int> insertIngredients(List<Ingredient> ingredients) {
+  Future<List<int>> insertIngredients(List<Ingredient> ingredients) {
     if (ingredients.isNotEmpty) {
       state = state.copyWith(
         curentIngredients: [...state.curentIngredients, ...ingredients],
       );
+      _ingredientStreamContoller.sink.add(state.curentIngredients);
     }
-    return [];
+    return Future.value([]);
   }
 
   @override
-  int insertRecipe(Recipe recipe) {
+  Future<int> insertRecipe(Recipe recipe) {
     if (state.currentRecipes.contains(recipe)) {
-      return 0;
+      return Future.value(0);
     }
     state = state.copyWith(currentRecipes: [...state.currentRecipes, recipe]);
+    _recipeStreamController.sink.add(state.currentRecipes);
     insertIngredients(recipe.ingredients);
-    return 0;
+    return Future.value(0);
+  }
+
+  @override
+  Stream<List<Recipe>> watchAlRecipes() {
+    return _recipeStream;
+  }
+
+  @override
+  Stream<List<Ingredient>> watchAllIngredients() {
+    return _ingredientStrem;
   }
 }
