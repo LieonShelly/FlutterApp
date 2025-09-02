@@ -549,6 +549,9 @@ abstract class _$RecipeDatabase extends GeneratedDatabase {
   _$RecipeDatabase(QueryExecutor e) : super(e);
   late final $DbRecipeTable dbRecipe = $DbRecipeTable(this);
   late final $DbIngredientTable dbIngredient = $DbIngredientTable(this);
+  late final RecipeDao recipeDao = RecipeDao(this as RecipeDatabase);
+  late final IngredientDao ingredientDao =
+      IngredientDao(this as RecipeDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

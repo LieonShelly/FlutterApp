@@ -25,7 +25,10 @@ class DbIngredient extends Table {
   RealColumn get amount => real()();
 }
 
-@DriftDatabase(tables: [DbRecipe, DbIngredient])
+@DriftDatabase(
+  tables: [DbRecipe, DbIngredient],
+  daos: [RecipeDao, IngredientDao],
+)
 class RecipeDatabase extends _$RecipeDatabase {
   RecipeDatabase() : super(impl.connect());
 

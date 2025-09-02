@@ -1,4 +1,5 @@
 import 'package:basic_widgets/constants.dart';
+import 'package:basic_widgets/data/repositories/db_repository.dart';
 import 'package:basic_widgets/home.dart';
 import 'package:basic_widgets/mock_service/mock_service.dart';
 import 'package:basic_widgets/models/auth.dart';
@@ -22,9 +23,14 @@ Future<void> main() async {
   // final mockService = await MockService.create();
   // final httpService = HttpSpoonacularService();
   final service = SpoonacularService.create();
+  final repository = DBRepository();
+  await repository.init();
   runApp(
     ProviderScope(
       overrides: [
+        repositoryProvider.overrideWith(() {
+          return repository;
+        }),
         sharedPrefProvider.overrideWithValue(sharedPrefs),
         serviceProvider.overrideWithValue(service),
       ],
