@@ -1,0 +1,15 @@
+import 'package:drift/drift.dart';
+
+Never _unsupported() {
+  throw UnimplementedError(
+    'No suitable database implementation was found on this platform',
+  );
+}
+
+DatabaseConnection connect() {
+  _unsupported();
+}
+
+Future<void> validateDatabaseSchema(GeneratedDatabase database) async {
+  _unsupported();
+}
