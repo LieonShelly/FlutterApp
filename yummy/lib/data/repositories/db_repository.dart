@@ -164,6 +164,7 @@ class DBRepository extends Notifier<CurrentRecipeData> implements Repository {
         ingredients.add(ingredient.copyWith(recipeId: id));
       }
       insertIngredients(ingredients);
+      return id;
     });
   }
 
@@ -177,17 +178,13 @@ class DBRepository extends Notifier<CurrentRecipeData> implements Repository {
   Stream<List<Ingredient>> watchAllIngredients() {
     if (ingredientStream == null) {
       final stream = _ingredientDao.watchAllIngredients();
-      ingredientStream = stream.map (
-        (dbIngredients) {
-          final ingredients = <Ingredient>[];
-          for(final dbIngredient in dbIngredients) {
-            ingredients.add(
-              dbIngredientToIngredient(dbIngredient);
-            );
-          }
-          return ingredients;
+      ingredientStream = stream.map((dbIngredients) {
+        final ingredients = <Ingredient>[];
+        for (final dbIngredient in dbIngredients) {
+          ingredients.add(dbIngredientToIngredient(dbIngredient));
         }
-      )
+        return ingredients;
+      });
     }
     return ingredientStream!;
   }
