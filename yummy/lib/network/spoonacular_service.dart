@@ -6,7 +6,7 @@ import 'query_result.dart';
 import 'model_reponse.dart';
 part 'spoonacular_service.chopper.dart';
 
-const String apiKey = '1116512ab9354a1fb9cab9883aa0e4ba';
+const String apiKey = '';
 const String apiUrl = 'https://api.spoonacular.com/';
 
 @ChopperApi()
