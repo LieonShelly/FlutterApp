@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:domain_models/domain_models.dart';
+import 'package:sign_in/sign_in.dart';
 
 void main() {
   test('adds one to input values', () {
