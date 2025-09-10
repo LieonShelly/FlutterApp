@@ -1,0 +1,130 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": "super_flutter_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "super_flutter_app (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "super_flutter_app (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "component_library",
+            "cwd": "packages/component_library",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "component_library (profile mode)",
+            "cwd": "packages/component_library",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "component_library (release mode)",
+            "cwd": "packages/component_library",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "domain_models",
+            "cwd": "packages/domain_models",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "fav_qs_api",
+            "cwd": "packages/fav_qs_api",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "form_fields",
+            "cwd": "packages/form_fields",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "quote_repository",
+            "cwd": "packages/quote_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "quote_repository (profile mode)",
+            "cwd": "packages/quote_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "quote_repository (release mode)",
+            "cwd": "packages/quote_repository",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "user_repository",
+            "cwd": "packages/user_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "quote_list",
+            "cwd": "packages/features/quote_list",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "quote_list (profile mode)",
+            "cwd": "packages/features/quote_list",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "quote_list (release mode)",
+            "cwd": "packages/features/quote_list",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "sign_in",
+            "cwd": "packages/features/sign_in",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "sign_in (profile mode)",
+            "cwd": "packages/features/sign_in",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "sign_in (release mode)",
+            "cwd": "packages/features/sign_in",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
