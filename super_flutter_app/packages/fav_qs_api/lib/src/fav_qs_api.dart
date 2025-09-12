@@ -1,9 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fav_qs_api/src/models/exceptions.dart';
-import 'package:fav_qs_api/src/models/request/sign_in_request_rm.dart';
-import 'package:fav_qs_api/src/models/request/user_credentials_rm.dart';
-import 'package:fav_qs_api/src/models/response/quote_list_page_rm.dart';
-import 'package:fav_qs_api/src/models/response/user_rm.dart';
+import 'package:fav_qs_api/fav_qs_api.dart';
 import 'package:fav_qs_api/src/url_builder.dart';
 import 'package:meta/meta.dart';
 
@@ -64,6 +60,54 @@ class FavQsApi {
       throw EmptySearchResultFavQsException();
     }
     return quoteListPage;
+  }
+
+  Future<QuoteRM> getQuote(int id) async {
+    final url = _urlBuilder.buildGetQuoteUrl(id);
+    final response = await _dio.get(url);
+    final jsonObject = response.data;
+    final quote = QuoteRM.fromJson(jsonObject);
+    return quote;
+  }
+
+  Future<QuoteRM> favoriteQuote(int id) async {
+    final url = _urlBuilder.buildFavoriteQuoteUrl(id);
+    return _updateQuote(url);
+  }
+
+  Future<QuoteRM> _updateQuote(String url) async {
+    final response = await _dio.put(url);
+    final jsonObject = response.data;
+    try {
+      final quote = QuoteRM.fromJson(jsonObject);
+      return quote;
+    } catch (error) {
+      final int errorCode = jsonObject[_errorCodeJsonKey];
+      if (errorCode == 20) {
+        throw UserAuthRequiredFavQsException();
+      }
+      rethrow;
+    }
+  }
+
+  Future<QuoteRM> unfavoriteQuote(int id) async {
+    final url = _urlBuilder.buildUnfavoriteQuoteUrl(id);
+    return _updateQuote(url);
+  }
+
+  Future<QuoteRM> upvoteQuote(int id) async {
+    final url = _urlBuilder.buildUpvoteQuoteUrl(id);
+    return _updateQuote(url);
+  }
+
+  Future<QuoteRM> downvoteQuote(int id) async {
+    final url = _urlBuilder.buildDownvoteQuoteUrl(id);
+    return _updateQuote(url);
+  }
+
+  Future<QuoteRM> unvoteQuote(int id) async {
+    final url = _urlBuilder.buildUnvoteQuoteUrl(id);
+    return _updateQuote(url);
   }
 }
 

@@ -99,13 +99,81 @@ class QuoteRepository {
 
       final shouldStoreOnCache = !isFiltering;
       if (shouldStoreOnCache) {
-        //...
+        final shouldEmptyCache = pageNumber == 1;
+        if (shouldEmptyCache) {
+          await _localStorage.clearQuoteListPageList(favoritesOnly);
+        }
+
+        final cachePage = apiPage.toCacheModel();
+        await _localStorage.upsertQuoteListPage(
+          pageNumber,
+          cachePage,
+          favoritesOnly,
+        );
+        final domainPage = apiPage.toDomainModel();
+        return domainPage;
       }
       final domainPage = apiPage.toDomainModel();
       return domainPage;
     } on EmptySearchResultFavQsException catch (_) {
       throw EmptySearchResultException();
     }
+  }
+
+  Future<Quote> getQuoteDetails(int id) async {
+    final cachedQuote = await _localStorage.getQuote(id);
+    if (cachedQuote != null) {
+      return cachedQuote.toDomainModel();
+    } else {
+      final apiQuote = await remoteApi.getQuote(id);
+      final domainQuote = apiQuote.toDomainModel();
+      return domainQuote;
+    }
+  }
+
+  Future<Quote> favoriteQuote(int id) async {
+    final updatedCacheQuote = await remoteApi
+        .favoriteQuote(id)
+        .toCacheUpdateFuture(
+          _localStorage,
+          shouldInvalidateFavoritesCache: true,
+        );
+    return updatedCacheQuote.toDomainModel();
+  }
+
+  Future<Quote> unfavoriteQuote(int id) async {
+    final updatedCacheQuote = await remoteApi
+        .unfavoriteQuote(id)
+        .toCacheUpdateFuture(
+          _localStorage,
+          shouldInvalidateFavoritesCache: true,
+        );
+    return updatedCacheQuote.toDomainModel();
+  }
+
+  Future<Quote> upvoteQuote(int id) async {
+    final updatedCacheQuote = await remoteApi
+        .upvoteQuote(id)
+        .toCacheUpdateFuture(_localStorage);
+    return updatedCacheQuote.toDomainModel();
+  }
+
+  Future<Quote> downvoteQuote(int id) async {
+    final updatedCacheQuote = await remoteApi
+        .downvoteQuote(id)
+        .toCacheUpdateFuture(_localStorage);
+    return updatedCacheQuote.toDomainModel();
+  }
+
+  Future<Quote> unvoteQuote(int id) async {
+    final updatedCacheQuote = await remoteApi
+        .unvoteQuote(id)
+        .toCacheUpdateFuture(_localStorage);
+    return updatedCacheQuote.toDomainModel();
+  }
+
+  Future<void> clearCache() async {
+    await _localStorage.clear();
   }
 }
 
@@ -114,4 +182,30 @@ enum QuoteListPageFetchPolicy {
   networkOnly,
   networkPreferably,
   cachePreferably,
+}
+
+extension on Future<QuoteRM> {
+  Future<QuoteCM> toCacheUpdateFuture(
+    QuoteLocalStorage localStorage, {
+    bool shouldInvalidateFavoritesCache = false,
+  }) async {
+    try {
+      final updatedApiQuote = await this;
+      final updatedCacheQuote = updatedApiQuote.toCacheModel();
+      await Future.wait([
+        localStorage.updateQuote(
+          updatedCacheQuote,
+          !shouldInvalidateFavoritesCache,
+        ),
+        if (shouldInvalidateFavoritesCache)
+          localStorage.clearQuoteListPageList(true),
+      ]);
+      return updatedCacheQuote;
+    } catch (error) {
+      if (error is UserAuthRequiredFavQsException) {
+        throw UserAuthenticationRequiredException();
+      }
+      rethrow;
+    }
+  }
 }
