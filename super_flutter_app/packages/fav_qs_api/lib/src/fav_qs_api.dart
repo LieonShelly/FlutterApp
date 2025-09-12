@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:fav_qs_api/src/models/exceptions.dart';
 import 'package:fav_qs_api/src/models/request/sign_in_request_rm.dart';
 import 'package:fav_qs_api/src/models/request/user_credentials_rm.dart';
+import 'package:fav_qs_api/src/models/response/quote_list_page_rm.dart';
 import 'package:fav_qs_api/src/models/response/user_rm.dart';
 import 'package:fav_qs_api/src/url_builder.dart';
 import 'package:meta/meta.dart';
@@ -41,6 +42,28 @@ class FavQsApi {
       }
       rethrow;
     }
+  }
+
+  Future<QuoteListPageRM> getQuoteListPage(
+    int page, {
+    String? tag,
+    String searchTerm = '',
+    String? favoritedByUsername,
+  }) async {
+    final url = _urlBuilder.buildGetQuoteListPageUrl(
+      page,
+      tag: tag,
+      searchTerm: searchTerm,
+      favoritedByUsername: favoritedByUsername,
+    );
+    final response = await _dio.get(url);
+    final jsonObject = response.data;
+    final quoteListPage = QuoteListPageRM.fromJson(jsonObject);
+    final firstItem = quoteListPage.quoteList.first;
+    if (firstItem.id == 0) {
+      throw EmptySearchResultFavQsException();
+    }
+    return quoteListPage;
   }
 }
 
