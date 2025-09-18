@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:quote_list/src/filter_horizontal_list.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -123,6 +124,8 @@ class _QuoteListViewState extends State<QuoteListView> {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SearchBar(controller: _searchBarContoller),
                 ),
+
+                const FilterHorizontalList(),
               ],
             ),
           ),

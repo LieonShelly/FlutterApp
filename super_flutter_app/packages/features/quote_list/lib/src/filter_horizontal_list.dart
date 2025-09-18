@@ -1,9 +1,7 @@
 import 'package:domain_models/domain_models.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:quote_list/src/quote_list_bloc.dart';
 
 class FilterHorizontalList extends StatelessWidget {
@@ -99,10 +97,6 @@ class _TagChip extends StatelessWidget {
 void _releaseFocus(BuildContext context) {
   FocusScope.of(context).unfocus()
 }
-
-
-
-
 extension on Tag {
   String toLocalizedString(BuildContext context) {
     switch (this) {
