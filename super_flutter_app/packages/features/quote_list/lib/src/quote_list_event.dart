@@ -66,3 +66,7 @@ class QuoteListItemUpdated extends QuoteListEvent {
 
   final Quote updatedQuote;
 }
+
+class QuoteListFilterByFavoritesToggled extends QuoteListEvent {
+  const QuoteListFilterByFavoritesToggled();
+}
