@@ -12,9 +12,10 @@ class FilterHorizontalList extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(vertical: Spacing.mediumLarge),
-      child: Row(children: [
-        const _FavoritesChip(),
-        ...Tag.values.map ((tag) => )
+      child: Row(
+        children: [
+          const _FavoritesChip(),
+          ...Tag.values.map((tag) => _TagChip(tag: tag)).toList(),
         ],
       ),
     );
@@ -59,44 +60,45 @@ class _FavoritesChip extends StatelessWidget {
 class _TagChip extends StatelessWidget {
   final Tag tag;
 
-  const _TagChip({
-    required this.tag,
-    Key? key,
-  }) : super(key: key);
+  const _TagChip({required this.tag, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isLastag = Tag.values.last == tag;
     return Padding(
-      padding: EdgeInsets.only(right:  isLastag ? Spacing.mediumLarge : _itemSpacing, left: _itemSpacing,),
-      child: BlocSelector<QuoteListBloc, QuoteListState, Tag?>(selector: (state) {
-        final filter = state.filter;
-        final selectedTag = filter is QuoteListFilterByTag ? filter.tag : null;
-        return selectedTag;
-      }, builder: (context, selectedTag) {
-        final isSelected = selectedTag == tag;
-        return RoundedChoiceChip(
-          label: tag.toLocalizedString(context), 
-          isSelected: isSelected,
-          onSelected: (isSelected) {
-            _releaseFocus(context);
-             final bloc = context.read<QuoteListBloc>();
-              bloc.add(
-                QuoteListTagChanged(
-                  tag: isSelected ? tag : null
-                ),
-              );
-          },
-        );
-      }),
-    
+      padding: EdgeInsets.only(
+        right: isLastag ? Spacing.mediumLarge : _itemSpacing,
+        left: _itemSpacing,
+      ),
+      child: BlocSelector<QuoteListBloc, QuoteListState, Tag?>(
+        selector: (state) {
+          final filter = state.filter;
+          final selectedTag = filter is QuoteListFilterByTag
+              ? filter.tag
+              : null;
+          return selectedTag;
+        },
+        builder: (context, selectedTag) {
+          final isSelected = selectedTag == tag;
+          return RoundedChoiceChip(
+            label: tag.toLocalizedString(context),
+            isSelected: isSelected,
+            onSelected: (isSelected) {
+              _releaseFocus(context);
+              final bloc = context.read<QuoteListBloc>();
+              bloc.add(QuoteListTagChanged(tag: isSelected ? tag : null));
+            },
+          );
+        },
+      ),
     );
   }
 }
 
 void _releaseFocus(BuildContext context) {
-  FocusScope.of(context).unfocus()
+  FocusScope.of(context).unfocus();
 }
+
 extension on Tag {
   String toLocalizedString(BuildContext context) {
     switch (this) {

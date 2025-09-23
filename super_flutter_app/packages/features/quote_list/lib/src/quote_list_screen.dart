@@ -14,13 +14,13 @@ import 'package:quote_list/src/quote_list_bloc.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
-typedef QupteSelected = Future<Quote> Function(int selectedQuote);
+typedef QuoteSelected = Future<Quote> Function(int selectedQuote);
 
 class QuoteListScreen extends StatelessWidget {
   final QuoteRepository quoteRepository;
   final UserRepository userRepository;
   //final RemoteValueService remoteValueService;
-  final QupteSelected? onQuoteSelected;
+  final QuoteSelected? onQuoteSelected;
   final void Function(BuildContext context) onAuthenticationError;
 
   const QuoteListScreen({
@@ -124,8 +124,18 @@ class _QuoteListViewState extends State<QuoteListView> {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: SearchBar(controller: _searchBarContoller),
                 ),
-
                 const FilterHorizontalList(),
+
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: () {
+                      _bloc.add(const QuoteListRefreshed());
+                      final stateChaneFuture = _bloc.stream.first;
+                      return stateChaneFuture;
+                    },
+                    child: QuotePagedListView,
+                  ),
+                ),
               ],
             ),
           ),
