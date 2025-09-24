@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fav_qs_api/fav_qs_api.dart';
+import 'package:fav_qs_api/src/models/request/sign_up_request_rm.dart';
 import 'package:fav_qs_api/src/url_builder.dart';
 import 'package:meta/meta.dart';
 
@@ -108,6 +109,30 @@ class FavQsApi {
   Future<QuoteRM> unvoteQuote(int id) async {
     final url = _urlBuilder.buildUnvoteQuoteUrl(id);
     return _updateQuote(url);
+  }
+
+  Future<String> signUp(String username, String email, String password) async {
+    final url = _urlBuilder.buildSignUpUrl();
+    final requestJsonBody = SignUpRequestRM(
+      user: UserInfoRM(username: username, email: email, password: password),
+    ).toJson();
+
+    final response = await _dio.post(url, data: requestJsonBody);
+    final jsonObject = response.data;
+    try {
+      return jsonObject['User-Token'];
+    } catch (error) {
+      final int errorCode = jsonObject[_errorCodeJsonKey];
+      if (errorCode == 32) {
+        final String errorMessage = jsonObject[_errorMessageJsonKey];
+        if (errorMessage.toLowerCase().contains('email')) {
+          throw EmailAlreadyRegisteredFavQsException();
+        } else {
+          throw UsernameAlreadyTakenFavQsException();
+        }
+      }
+      rethrow;
+    }
   }
 }
 
