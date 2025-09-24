@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
 import 'package:quote_list/src/quote_list_screen.dart';
-import 'package:component_library/component_library.dart';
 
 class QuotePagedListView extends StatelessWidget {
   const QuotePagedListView({

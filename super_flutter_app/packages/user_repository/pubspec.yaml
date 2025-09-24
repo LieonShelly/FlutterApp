@@ -11,6 +11,8 @@ dependencies:
     path: ../domain_models
   rxdart: ^0.27.1
   flutter_secure_storage: ^4.2.0
+  key_value_storage:
+    path:  ../key_value_storage
 
 dev_dependencies:
   mockito: ^5.2.0

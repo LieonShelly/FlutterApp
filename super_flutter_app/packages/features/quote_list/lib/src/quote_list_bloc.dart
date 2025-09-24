@@ -23,6 +23,16 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
        super(const QuoteListState()) {
     _registerEventHandler();
     // userRepository.get...
+
+    // _authChangesSubscription = userRepository.getUser().listen(
+    //   (user) {
+    //     _authenticatedUsername = user?.username;
+
+    //     add(
+    //       const QuoteListUsernameObtained(),
+    //     );
+    //   },
+    // );
   }
 
   void _registerEventHandler() {
@@ -294,7 +304,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
 
   @override
   Future<void> close() {
-    _authChangesSubscription.cancel();
+    //_authChangesSubscription.cancel();
     return super.close();
   }
 }
