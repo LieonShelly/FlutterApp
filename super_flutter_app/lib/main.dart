@@ -1,5 +1,8 @@
 import 'package:fav_qs_api/fav_qs_api.dart';
 import 'package:flutter/material.dart';
+import 'package:key_value_storage/key_value_storage.dart';
+import 'package:quote_list/quote_list.dart';
+import 'package:quote_repository/quote_repository.dart';
 import 'package:sign_in/sign_in.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -22,17 +25,25 @@ class WonderWordsAppState extends State<WonderWordsApp> {
       return "";
     },
   );
+  final _keyValueStorage = KeyValueStorage();
   late final _userRepository = UserRepository(remoteApi: _favQsApi);
-  // late final _quoteRepositry = Quore
+  late final _quoteRepositry = QuoteRepository(
+    keyValueStorage: _keyValueStorage,
+    remoteApi: _favQsApi,
+  );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SignInScreen(
-        onSignInSuccess: () {},
-        onForgotMyPasswordTap: () {},
-        userRepository: _userRepository,
-      ),
+    final listScreen = QuoteListScreen(
+      quoteRepository: _quoteRepositry,
+      userRepository: _userRepository,
+      onAuthenticationError: (context) => {},
     );
+    final signInScreen = SignInScreen(
+      onSignInSuccess: () {},
+      onForgotMyPasswordTap: () {},
+      userRepository: _userRepository,
+    );
+    return MaterialApp(home: Scaffold(body: listScreen));
   }
 }

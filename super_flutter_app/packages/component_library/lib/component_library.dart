@@ -1,6 +1,10 @@
 export './theme/spacing.dart';
-export './generic_error_snack_bar.dart';
-export './expanded_elevated_button.dart';
-export './authentication_required_error_snack_bar.dart';
-export './styled_status_bar.dart';
-export './rounded_choice_chip.dart';
+export './theme/font_size.dart';
+export './src/generic_error_snack_bar.dart';
+export './src/expanded_elevated_button.dart';
+export './src/authentication_required_error_snack_bar.dart';
+export './src/styled_status_bar.dart';
+export './src/rounded_choice_chip.dart';
+export './src/quote_card.dart';
+export './src/svg_asset.dart';
+export './src/exception_indicator.dart';

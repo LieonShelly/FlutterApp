@@ -1,8 +1,5 @@
 import 'dart:ffi';
-
-import 'package:component_library/authentication_required_error_snack_bar.dart';
 import 'package:component_library/component_library.dart';
-import 'package:component_library/generic_error_snack_bar.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:quote_list/src/filter_horizontal_list.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
+import 'package:quote_list/src/quote_paged_list_view.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -34,15 +32,20 @@ class QuoteListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return BlocProvider<QuoteListBloc>(
+      create: (_) => QuoteListBloc(
+        quoteRepositroy: quoteRepository,
+        userRepository: userRepository,
+      ),
+      child: QuoteListView(onAuthenticationError: onAuthenticationError),
+    );
   }
 }
 
 @visibleForTesting
 class QuoteListView extends StatefulWidget {
   // final RemoteValueService remoteValueService;
-  final QupteSelected? onQuoteSelected;
+  final QuoteSelected? onQuoteSelected;
   final void Function(BuildContext context) onAuthenticationError;
 
   QuoteListView({
@@ -133,7 +136,10 @@ class _QuoteListViewState extends State<QuoteListView> {
                       final stateChaneFuture = _bloc.stream.first;
                       return stateChaneFuture;
                     },
-                    child: QuotePagedListView,
+                    child: QuotePagedListView(
+                      pagingController: _pagingController,
+                      onQuoteSelected: widget.onQuoteSelected,
+                    ),
                   ),
                 ),
               ],
