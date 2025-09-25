@@ -74,5 +74,49 @@ class UserRepository {
     return _secureStorage.getUserToken();
   }
 
-  Future<void> signUp(String username, String email, String password) async {}
+  Future<void> signUp(String username, String email, String password) async {
+    try {
+      final userToken = await remoteApi.signUp(username, email, password);
+      await _secureStorage.upsertUserInfo(
+        username: username,
+        email: email,
+        token: userToken,
+      );
+
+      _userSubject.add(User(username: username, email: email));
+    } catch (error) {
+      if (error is UsernameAlreadyTakenFavQsException) {
+        throw UsernameAlreadyTakenException();
+      } else if (error is EmailAlreadyRegisteredFavQsException) {
+        throw EmailAlreadyRegisteredException();
+      }
+      rethrow;
+    }
+  }
+
+  Future<void> updateProfile(
+    String username,
+    String email,
+    String newPassword,
+  ) async {
+    try {
+      await remoteApi.updateProfile(username, email, newPassword);
+
+      await _secureStorage.upsertUserInfo(username: username, email: email);
+
+      _userSubject.add(User(username: username, email: email));
+    } on UsernameAlreadyTakenFavQsException catch (_) {
+      throw UsernameAlreadyTakenException();
+    }
+  }
+
+  Future<void> signOut() async {
+    await remoteApi.signOut();
+    await _secureStorage.deleteUserInfo();
+    _userSubject.add(null);
+  }
+
+  Future<void> requestPasswordResetEmail(String email) async {
+    await remoteApi.requestPasswordResetEmail(email);
+  }
 }
