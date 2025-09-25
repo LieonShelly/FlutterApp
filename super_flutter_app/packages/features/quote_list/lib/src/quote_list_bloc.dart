@@ -13,7 +13,7 @@ part 'quote_list_state.dart';
 
 class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
   late final StreamSubscription _authChangesSubscription;
-  String? _authenticationUsername;
+  String? _authenticatedUsername;
   final QuoteRepository _quoteRepository;
 
   QuoteListBloc({
@@ -22,17 +22,11 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
   }) : _quoteRepository = quoteRepositroy,
        super(const QuoteListState()) {
     _registerEventHandler();
-    // userRepository.get...
 
-    // _authChangesSubscription = userRepository.getUser().listen(
-    //   (user) {
-    //     _authenticatedUsername = user?.username;
-
-    //     add(
-    //       const QuoteListUsernameObtained(),
-    //     );
-    //   },
-    // );
+    _authChangesSubscription = userRepository.getUser().listen((user) {
+      _authenticatedUsername = user?.username;
+      add(const QuoteListUsernameObtained());
+    });
   }
 
   void _registerEventHandler() {
@@ -255,7 +249,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
     final currentAppliedFilter = state.filter;
     final isFilterByFavorites =
         currentAppliedFilter is QuoteListFilterByFavorites;
-    final isUserSignedIn = _authenticationUsername != null;
+    final isUserSignedIn = _authenticatedUsername != null;
 
     if (isFilterByFavorites && !isUserSignedIn) {
       yield QuoteListState.noItemsFound(filter: currentAppliedFilter);
@@ -269,7 +263,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
             ? currentAppliedFilter.searchTerm
             : '',
         favoriteByUsername: currentAppliedFilter is QuoteListFilterByFavorites
-            ? _authenticationUsername
+            ? _authenticatedUsername
             : null,
         fetchPolicy: fetchPolicy,
       );
@@ -304,7 +298,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
 
   @override
   Future<void> close() {
-    //_authChangesSubscription.cancel();
+    _authChangesSubscription.cancel();
     return super.close();
   }
 }
