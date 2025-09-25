@@ -134,6 +134,45 @@ class FavQsApi {
       rethrow;
     }
   }
+
+  Future<void> updateProfile(
+    String username,
+    String email,
+    String? password,
+  ) async {
+    final url = _urlBuilder.buildUpdateProfileUrl(username);
+    final requestJsonBody = UpdateUserRequestRM(
+      user: UserInfoRM(username: username, email: email, password: password),
+    ).toJson();
+    final response = await _dio.put(url, data: requestJsonBody);
+    final Map<String, dynamic> jsonObject = response.data;
+    if (jsonObject.containsKey(_errorCodeJsonKey)) {
+      final int errorCode = jsonObject[_errorCodeJsonKey];
+      if (errorCode == 32) {
+        throw UsernameAlreadyTakenFavQsException();
+      }
+    }
+  }
+
+  Future<void> signOut() async {
+    final url = _urlBuilder.buildSignOutUrl();
+    await _dio.delete(url);
+  }
+
+  Future<void> requestPasswordResetEmail(String email) async {
+    final url = _urlBuilder.buildRequestPasswordResetEmailUrl();
+    try {
+      await _dio.post(
+        url,
+        data: PasswordResetEmailRequestRM(user: UserEmailRM(email: email)),
+      );
+    } on DioError catch (error) {
+      if (error.response?.statusCode == 404) {
+        return;
+      }
+      rethrow;
+    }
+  }
 }
 
 extension on Dio {

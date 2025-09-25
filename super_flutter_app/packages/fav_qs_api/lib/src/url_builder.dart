@@ -63,4 +63,12 @@ class UrlBuilder {
   String buildUnvoteQuoteUrl(int id) {
     return '$_baseUrl/quotes/$id/clearvote';
   }
+
+  String buildUpdateProfileUrl(String username) {
+    return '$_baseUrl/users/$username';
+  }
+
+  String buildRequestPasswordResetEmailUrl() {
+    return '$_baseUrl/users/forgot_password';
+  }
 }
