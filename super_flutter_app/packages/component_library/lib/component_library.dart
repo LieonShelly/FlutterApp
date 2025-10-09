@@ -8,3 +8,5 @@ export './src/rounded_choice_chip.dart';
 export './src/quote_card.dart';
 export './src/svg_asset.dart';
 export './src/exception_indicator.dart';
+export './src/shrinkable_text.dart';
+export './src/centered_circular_progress_indicator.dart';

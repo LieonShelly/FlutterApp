@@ -62,7 +62,16 @@ class QuoteDetailsView extends StatelessWidget {
             child: SafeArea(
               child: Padding(
                 padding: EdgeInsets.all(Spacing.mediumLarge),
-                child: state is QuoteDetailsSuccess?,
+                child: state is QuoteDetailsSuccess
+                    ? _Quote(quote: state.quote)
+                    : state is QuoteDetailFailure
+                    ? ExceptionIndicator(
+                        onTryAgain: () {
+                          final cubit = context.read<QuoteDetailsCubit>();
+                          cubit.refetch();
+                        },
+                      )
+                    : const CenteredCircularProgressIndicator(),
               ),
             ),
           );
@@ -92,7 +101,22 @@ class _Quote extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: Spacing.xxLarge),
+            child: Center(
+              child: ShrinkableText(
+                text: quote.body,
+                style: TextStyle(fontSize: FontSize.xxLarge),
+              ),
+            ),
           ),
+        ),
+
+        const ClosingQuoteSvgAsset(width: _quoteIconWidth),
+
+        const SizedBox(height: Spacing.medium),
+
+        Text(
+          quote.author ?? '',
+          style: const TextStyle(fontSize: FontSize.large),
         ),
       ],
     );
