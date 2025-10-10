@@ -10,3 +10,8 @@ export './src/svg_asset.dart';
 export './src/exception_indicator.dart';
 export './src/shrinkable_text.dart';
 export './src/centered_circular_progress_indicator.dart';
+export './src/row_app_bar.dart';
+export './src/favorite_icon_button.dart';
+export './src/downvote_icon_button.dart';
+export './src/upvote_icon_button.dart';
+export 'src/count_indicator_icon_button.dart';
