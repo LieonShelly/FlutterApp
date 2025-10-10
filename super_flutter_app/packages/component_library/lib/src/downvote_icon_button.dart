@@ -1,4 +1,4 @@
-import 'package:component_library/src/count_Indicator_icon_button.dart';
+import 'package:component_library/src/count_indicator_icon_button.dart';
 import 'package:flutter/material.dart';
 
 class DownvoteIconButton extends StatelessWidget {

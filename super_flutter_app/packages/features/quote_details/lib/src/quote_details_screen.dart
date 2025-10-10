@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quote_details/src/quote_details_cubit.dart';
 import 'package:quote_repository/quote_repository.dart';
+import 'package:share_plus/share_plus.dart';
 
 typedef QuoteDetailsShareableLinkGenerator =
     Future<String> Function(Quote quote);
@@ -62,19 +63,27 @@ class QuoteDetailsView extends StatelessWidget {
               Navigator.of(context).pop(dispayedQuote);
               return false;
             },
-            child: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.all(Spacing.mediumLarge),
-                child: state is QuoteDetailsSuccess
-                    ? _Quote(quote: state.quote)
-                    : state is QuoteDetailFailure
-                    ? ExceptionIndicator(
-                        onTryAgain: () {
-                          final cubit = context.read<QuoteDetailsCubit>();
-                          cubit.refetch();
-                        },
-                      )
-                    : const CenteredCircularProgressIndicator(),
+            child: Scaffold(
+              appBar: state is QuoteDetailsSuccess
+                  ? _QuoteActionsAppBar(
+                      quote: state.quote,
+                      shareableLinkGenerator: shareableLinkGenerator,
+                    )
+                  : null,
+              body: SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.all(Spacing.mediumLarge),
+                  child: state is QuoteDetailsSuccess
+                      ? _Quote(quote: state.quote)
+                      : state is QuoteDetailFailure
+                      ? ExceptionIndicator(
+                          onTryAgain: () {
+                            final cubit = context.read<QuoteDetailsCubit>();
+                            cubit.refetch();
+                          },
+                        )
+                      : const CenteredCircularProgressIndicator(),
+                ),
               ),
             ),
           );
@@ -136,6 +145,14 @@ class _QuoteActionsAppBar extends StatelessWidget
             }
           },
         ),
+
+        if (shareableLinkGenerator != null)
+          ShareIconButton(
+            onTap: () async {
+              final url = await shareableLinkGenerator(quote);
+              Share.share(url);
+            },
+          ),
       ],
     );
   }

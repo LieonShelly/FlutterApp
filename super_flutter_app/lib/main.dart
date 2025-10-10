@@ -26,7 +26,10 @@ class WonderWordsAppState extends State<WonderWordsApp> {
     },
   );
   final _keyValueStorage = KeyValueStorage();
-  late final _userRepository = UserRepository(remoteApi: _favQsApi);
+  late final _userRepository = UserRepository(
+    remoteApi: _favQsApi,
+    noSqlStorage: _keyValueStorage,
+  );
   late final _quoteRepositry = QuoteRepository(
     keyValueStorage: _keyValueStorage,
     remoteApi: _favQsApi,
