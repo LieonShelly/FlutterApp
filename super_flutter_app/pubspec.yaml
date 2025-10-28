@@ -20,6 +20,8 @@ dependencies:
     path: packages/user_repository
   quote_list:
     path: packages/features/quote_list
+  quote_details:
+    path: packages/features/quote_details
   sign_in:
     path: packages/features/sign_in
   domain_models:

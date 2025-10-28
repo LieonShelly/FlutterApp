@@ -6,6 +6,7 @@ import 'package:super_flutter_app/l10n/app_localizations.dart';
 import 'package:super_flutter_app/routing_table.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:component_library/component_library.dart';
 
 void main() {
   runApp(const WonderWordsApp());
@@ -47,13 +48,22 @@ class WonderWordsAppState extends State<WonderWordsApp> {
     },
   );
 
+  final _lightTheme = LightWonderThemeData();
+  final _darkTheme = DarkWonderThemeData();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    final app = MaterialApp.router(
       supportedLocales: const [Locale('en', ''), Locale('pt', 'BR')],
       localizationsDelegates: const [AppLocalizations.delegate],
       routerDelegate: _routerDelegate,
       routeInformationParser: const RoutemasterParser(),
+    );
+
+    return WonderTheme(
+      lightTheme: _lightTheme,
+      darkTheme: _darkTheme,
+      child: app,
     );
   }
 

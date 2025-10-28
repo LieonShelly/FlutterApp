@@ -16,3 +16,5 @@ export './src/downvote_icon_button.dart';
 export './src/upvote_icon_button.dart';
 export './src/count_indicator_icon_button.dart';
 export './src/share_icon_button.dart';
+export './theme/wonder_theme.dart';
+export './theme/wonder_theme_data.dart';

@@ -1,9 +1,6 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_struct_patch.dart';
-
 import 'package:component_library/component_library.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quote_details/src/quote_details_cubit.dart';
 import 'package:quote_repository/quote_repository.dart';
@@ -72,7 +69,7 @@ class QuoteDetailsView extends StatelessWidget {
                   : null,
               body: SafeArea(
                 child: Padding(
-                  padding: EdgeInsets.all(Spacing.mediumLarge),
+                  padding: EdgeInsets.all(WonderTheme.of(context).screenMargin),
                   child: state is QuoteDetailsSuccess
                       ? _Quote(quote: state.quote)
                       : state is QuoteDetailFailure
@@ -170,6 +167,7 @@ class _Quote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = WonderTheme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -184,7 +182,9 @@ class _Quote extends StatelessWidget {
             child: Center(
               child: ShrinkableText(
                 text: quote.body,
-                style: TextStyle(fontSize: FontSize.xxLarge),
+                style: theme.quoteTextStyle.copyWith(
+                  fontSize: FontSize.xxLarge,
+                ),
               ),
             ),
           ),

@@ -37,7 +37,10 @@ class QuoteListScreen extends StatelessWidget {
         quoteRepositroy: quoteRepository,
         userRepository: userRepository,
       ),
-      child: QuoteListView(onAuthenticationError: onAuthenticationError),
+      child: QuoteListView(
+        onAuthenticationError: onAuthenticationError,
+        onQuoteSelected: onQuoteSelected,
+      ),
     );
   }
 }
@@ -86,6 +89,7 @@ class _QuoteListViewState extends State<QuoteListView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = WonderTheme.of(context);
     return BlocListener<QuoteListBloc, QuoteListState>(
       listener: (context, state) {
         final searchBarText = _searchBarContoller.text;
@@ -124,7 +128,7 @@ class _QuoteListViewState extends State<QuoteListView> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: theme.screenMargin),
                   child: SearchBar(controller: _searchBarContoller),
                 ),
                 const FilterHorizontalList(),

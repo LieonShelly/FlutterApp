@@ -1,11 +1,13 @@
 import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
+import 'package:key_value_storage/key_value_storage.dart';
 import 'package:quote_list/quote_list.dart';
 import 'package:sign_in/sign_in.dart';
 import 'package:super_flutter_app/tab_container_screen.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:quote_repository/quote_repository.dart';
+import 'package:quote_details/quote_details.dart';
 
 Map<String, PageBuilder> buildRoutingTable({
   required RoutemasterDelegate routerDelegate,
@@ -30,7 +32,7 @@ Map<String, PageBuilder> buildRoutingTable({
             },
             onQuoteSelected: (id) {
               final navigation = routerDelegate.push<Quote?>(
-                _PathConstants.quoteDetailsPush(quoteId: id),
+                _PathConstants.quoteDetailsPath(quoteId: id),
               );
               return navigation.result;
             },
@@ -54,6 +56,19 @@ Map<String, PageBuilder> buildRoutingTable({
         ),
       ),
     ),
+    _PathConstants.quoteDetailsPath(): (info) => MaterialPage(
+      child: Scaffold(
+        body: QuoteDetailsScreen(
+          quoteId: int.parse(
+            info.pathParameters[_PathConstants.idPathParameter] ?? '',
+          ),
+          onAuthenticatonError: () {
+            routerDelegate.push(_PathConstants.signInPath);
+          },
+          quoteRepository: quoteRepository,
+        ),
+      ),
+    ),
   };
 }
 
@@ -74,6 +89,6 @@ class _PathConstants {
 
   static String get idPathParameter => 'id';
 
-  static String quoteDetailsPush({int? quoteId}) =>
+  static String quoteDetailsPath({int? quoteId}) =>
       '$quoteListPath/${quoteId ?? ':$idPathParameter'}';
 }
