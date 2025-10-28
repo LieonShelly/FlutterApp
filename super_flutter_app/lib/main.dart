@@ -7,6 +7,7 @@ import 'package:super_flutter_app/routing_table.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:component_library/component_library.dart';
+import 'package:domain_models/domain_models.dart';
 
 void main() {
   runApp(const WonderWordsApp());
@@ -53,17 +54,24 @@ class WonderWordsAppState extends State<WonderWordsApp> {
 
   @override
   Widget build(BuildContext context) {
-    final app = MaterialApp.router(
-      supportedLocales: const [Locale('en', ''), Locale('pt', 'BR')],
-      localizationsDelegates: const [AppLocalizations.delegate],
-      routerDelegate: _routerDelegate,
-      routeInformationParser: const RoutemasterParser(),
-    );
-
-    return WonderTheme(
-      lightTheme: _lightTheme,
-      darkTheme: _darkTheme,
-      child: app,
+    return StreamBuilder<DarkModePreference>(
+      stream: _userRepository.getDarkModePreference(),
+      builder: (context, snapshot) {
+        final darkModePreference = snapshot.data;
+        return WonderTheme(
+          lightTheme: _lightTheme,
+          darkTheme: _darkTheme,
+          child: MaterialApp.router(
+            theme: _lightTheme.materialThemeData,
+            darkTheme: _darkTheme.materialThemeData,
+            themeMode: darkModePreference?.toThemeMode(),
+            supportedLocales: const [Locale('en', ''), Locale('pt', 'BR')],
+            localizationsDelegates: const [AppLocalizations.delegate],
+            routerDelegate: _routerDelegate,
+            routeInformationParser: const RoutemasterParser(),
+          ),
+        );
+      },
     );
   }
 
@@ -76,4 +84,17 @@ class WonderWordsAppState extends State<WonderWordsApp> {
   }
 
   Future<void> _openInitialDynamicLinkIfAny() async {}
+}
+
+extension on DarkModePreference {
+  ThemeMode toThemeMode() {
+    switch (this) {
+      case DarkModePreference.useSystemSettings:
+        return ThemeMode.system;
+      case DarkModePreference.alwaysLight:
+        return ThemeMode.light;
+      case DarkModePreference.alwaysDark:
+        return ThemeMode.dark;
+    }
+  }
 }
