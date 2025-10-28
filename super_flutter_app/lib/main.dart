@@ -2,6 +2,7 @@ import 'package:fav_qs_api/fav_qs_api.dart';
 import 'package:flutter/material.dart';
 import 'package:key_value_storage/key_value_storage.dart';
 import 'package:quote_repository/quote_repository.dart';
+import 'package:super_flutter_app/l10n/app_localizations.dart';
 import 'package:super_flutter_app/routing_table.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:routemaster/routemaster.dart';
@@ -49,6 +50,8 @@ class WonderWordsAppState extends State<WonderWordsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      supportedLocales: const [Locale('en', ''), Locale('pt', 'BR')],
+      localizationsDelegates: const [AppLocalizations.delegate],
       routerDelegate: _routerDelegate,
       routeInformationParser: const RoutemasterParser(),
     );
@@ -62,8 +65,5 @@ class WonderWordsAppState extends State<WonderWordsApp> {
     });
   }
 
-  Future<void> _openInitialDynamicLinkIfAny() async {
-    final path = "/sign-in";
-    _routerDelegate.replace(path);
-  }
+  Future<void> _openInitialDynamicLinkIfAny() async {}
 }

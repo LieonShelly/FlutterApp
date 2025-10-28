@@ -8,6 +8,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   routemaster: ^1.0.1
   cupertino_icons: ^1.0.8
   fav_qs_api:
