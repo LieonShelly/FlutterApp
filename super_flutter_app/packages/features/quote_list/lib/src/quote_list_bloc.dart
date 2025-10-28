@@ -254,20 +254,20 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
     if (isFilterByFavorites && !isUserSignedIn) {
       yield QuoteListState.noItemsFound(filter: currentAppliedFilter);
     } else {
-      final pageStream = _quoteRepository.getQuoteListPage(
-        page,
-        tag: currentAppliedFilter is QuoteListFilterByTag
-            ? currentAppliedFilter.tag
-            : null,
-        searchTerm: currentAppliedFilter is QuoteListFilterBySearchTerm
-            ? currentAppliedFilter.searchTerm
-            : '',
-        favoriteByUsername: currentAppliedFilter is QuoteListFilterByFavorites
-            ? _authenticatedUsername
-            : null,
-        fetchPolicy: fetchPolicy,
-      );
       try {
+        final pageStream = _quoteRepository.getQuoteListPage(
+          page,
+          tag: currentAppliedFilter is QuoteListFilterByTag
+              ? currentAppliedFilter.tag
+              : null,
+          searchTerm: currentAppliedFilter is QuoteListFilterBySearchTerm
+              ? currentAppliedFilter.searchTerm
+              : '',
+          favoriteByUsername: currentAppliedFilter is QuoteListFilterByFavorites
+              ? _authenticatedUsername
+              : null,
+          fetchPolicy: fetchPolicy,
+        );
         await for (final newPage in pageStream) {
           final newItemList = newPage.quoteList;
           final oldItemList = state.itemList ?? [];

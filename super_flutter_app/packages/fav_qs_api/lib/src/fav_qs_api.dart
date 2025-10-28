@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:fav_qs_api/fav_qs_api.dart';
 import 'package:fav_qs_api/src/models/request/sign_up_request_rm.dart';
@@ -20,6 +23,15 @@ class FavQsApi {
        _urlBuilder = urlBuilder ?? const UrlBuilder() {
     _dio.setUpAuthHeaders(userTokenSupplier);
     _dio.interceptors.add(LogInterceptor(responseBody: false));
+    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+          client.findProxy = (uri) {
+            return 'PROXY 127.0.0.1:8888';
+          };
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) => true;
+          return client;
+        };
   }
 
   Future<UserRM> signIn(String email, String password) async {
@@ -53,14 +65,18 @@ class FavQsApi {
       searchTerm: searchTerm,
       favoritedByUsername: favoritedByUsername,
     );
-    final response = await _dio.get(url);
-    final jsonObject = response.data;
-    final quoteListPage = QuoteListPageRM.fromJson(jsonObject);
-    final firstItem = quoteListPage.quoteList.first;
-    if (firstItem.id == 0) {
-      throw EmptySearchResultFavQsException();
+    try {
+      final response = await _dio.get(url);
+      final jsonObject = response.data;
+      final quoteListPage = QuoteListPageRM.fromJson(jsonObject);
+      final firstItem = quoteListPage.quoteList.first;
+      if (firstItem.id == 0) {
+        throw EmptySearchResultFavQsException();
+      }
+      return quoteListPage;
+    } on DioError catch (error) {
+      rethrow;
     }
-    return quoteListPage;
   }
 
   Future<QuoteRM> getQuote(int id) async {

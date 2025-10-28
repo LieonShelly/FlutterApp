@@ -4,7 +4,7 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    
+        
         {
             "name": "super_flutter_app",
             "request": "launch",
@@ -61,6 +61,12 @@
             "type": "dart"
         },
         {
+            "name": "key_value_storage",
+            "cwd": "packages/key_value_storage",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
             "name": "quote_repository",
             "cwd": "packages/quote_repository",
             "request": "launch",
@@ -85,6 +91,26 @@
             "cwd": "packages/user_repository",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "quote_details",
+            "cwd": "packages/features/quote_details",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "quote_details (profile mode)",
+            "cwd": "packages/features/quote_details",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "quote_details (release mode)",
+            "cwd": "packages/features/quote_details",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
         },
         {
             "name": "quote_list",

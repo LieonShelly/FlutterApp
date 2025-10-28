@@ -12,7 +12,7 @@ import 'package:quote_list/src/quote_paged_list_view.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
-typedef QuoteSelected = Future<Quote> Function(int selectedQuote);
+typedef QuoteSelected = Future<Quote?> Function(int selectedQuote);
 
 class QuoteListScreen extends StatelessWidget {
   final QuoteRepository quoteRepository;

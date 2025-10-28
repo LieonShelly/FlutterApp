@@ -1,10 +1,10 @@
 import 'package:fav_qs_api/fav_qs_api.dart';
 import 'package:flutter/material.dart';
 import 'package:key_value_storage/key_value_storage.dart';
-import 'package:quote_list/quote_list.dart';
 import 'package:quote_repository/quote_repository.dart';
-import 'package:sign_in/sign_in.dart';
+import 'package:super_flutter_app/routing_table.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:routemaster/routemaster.dart';
 
 void main() {
   runApp(const WonderWordsApp());
@@ -34,19 +34,36 @@ class WonderWordsAppState extends State<WonderWordsApp> {
     keyValueStorage: _keyValueStorage,
     remoteApi: _favQsApi,
   );
+  late final RoutemasterDelegate _routerDelegate = RoutemasterDelegate(
+    routesBuilder: (context) {
+      return RouteMap(
+        routes: buildRoutingTable(
+          routerDelegate: _routerDelegate,
+          userRepository: _userRepository,
+          quoteRepository: _quoteRepositry,
+        ),
+      );
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
-    final listScreen = QuoteListScreen(
-      quoteRepository: _quoteRepositry,
-      userRepository: _userRepository,
-      onAuthenticationError: (context) => {},
+    return MaterialApp.router(
+      routerDelegate: _routerDelegate,
+      routeInformationParser: const RoutemasterParser(),
     );
-    final signInScreen = SignInScreen(
-      onSignInSuccess: () {},
-      onForgotMyPasswordTap: () {},
-      userRepository: _userRepository,
-    );
-    return MaterialApp(home: Scaffold(body: listScreen));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _openInitialDynamicLinkIfAny();
+    });
+  }
+
+  Future<void> _openInitialDynamicLinkIfAny() async {
+    final path = "/sign-in";
+    _routerDelegate.replace(path);
   }
 }
