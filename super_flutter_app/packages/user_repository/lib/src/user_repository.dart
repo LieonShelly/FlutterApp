@@ -2,6 +2,7 @@ import 'package:domain_models/domain_models.dart';
 import 'package:fav_qs_api/fav_qs_api.dart';
 import 'package:key_value_storage/key_value_storage.dart';
 import 'package:user_repository/src/mappers/cache_to_domain.dart';
+import 'package:user_repository/src/mappers/mappers.dart';
 import 'package:user_repository/src/mappers/remote_to_domain.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:user_repository/src/user_local_storage.dart';
@@ -14,6 +15,8 @@ class UserRepository {
   final UserLocalStorage _localStorage;
   final UserSecureStorage _secureStorage;
   final BehaviorSubject<DarkModePreference> _darkkModePreferenceSubject =
+      BehaviorSubject();
+  final BehaviorSubject<DarkModePreference> _darkModePreferenceSubject =
       BehaviorSubject();
 
   UserRepository({
@@ -39,6 +42,11 @@ class UserRepository {
     } on InvalidCredentialsFavQsException catch (_) {
       throw InvalidCredentialsException();
     }
+  }
+
+  Future<void> upsertDarkModePreference(DarkModePreference preference) async {
+    await _localStorage.upsertDarkModePreference(preference.toCacheModel());
+    _darkModePreferenceSubject.add(preference);
   }
 
   Stream<DarkModePreference> getDarkModePreference() async* {
