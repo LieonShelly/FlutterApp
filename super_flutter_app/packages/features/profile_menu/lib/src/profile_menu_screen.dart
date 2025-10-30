@@ -1,9 +1,11 @@
 import 'package:component_library/component_library.dart';
+import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile_menu/src/profile_menu_bloc.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
+part './dark_mode_preference_picker.dart';
 
 class ProfileMenuScreen extends StatelessWidget {
   final VoidCallback? onSignInTap;
@@ -87,6 +89,9 @@ class ProfileMenuView extends StatelessWidget {
                       const Divider(),
                       const SizedBox(height: Spacing.mediumLarge),
                     ],
+                    DarkModePreferencePicker(
+                      currentValue: state.darkModePreference,
+                    ),
                     if (state.isUserAuthenticated) ...[
                       const Spacer(),
                       _SignOutButton(
