@@ -15,6 +15,16 @@ class ExpandedElevatedButton extends StatelessWidget {
   final String label;
   final Widget? icon;
 
+  ExpandedElevatedButton.inProgress({required String label, Key? key})
+    : this(
+        label: label,
+        icon: Transform.scale(
+          scale: 0.5,
+          child: const CircularProgressIndicator(),
+          key: key,
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     final icon = this.icon;

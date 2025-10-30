@@ -6,9 +6,9 @@ import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class ProfileMenuScreen extends StatelessWidget {
-  final VoidCallbackAction? onSignInTap;
-  final VoidCallbackAction? onUpdateProfileTap;
-  final VoidCallbackAction? onSignUpTap;
+  final VoidCallback? onSignInTap;
+  final VoidCallback? onUpdateProfileTap;
+  final VoidCallback? onSignUpTap;
   final UserRepository userRepository;
   final QuoteRepository quoteRepository;
 
@@ -23,14 +23,24 @@ class ProfileMenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProfileMenuBloc>(create: (_) => ());
+    return BlocProvider<ProfileMenuBloc>(
+      create: (_) => ProfileMenuBloc(
+        userRepository: userRepository,
+        quoteRepository: quoteRepository,
+      ),
+      child: ProfileMenuView(
+        onSignInTap: onSignInTap,
+        onSignUpTap: onSignUpTap,
+        onUpdateProfileTap: onUpdateProfileTap,
+      ),
+    );
   }
 }
 
 class ProfileMenuView extends StatelessWidget {
-  final VoidCallbackAction? onSignInTap;
-  final VoidCallbackAction? onUpdateProfileTap;
-  final VoidCallbackAction? onSignUpTap;
+  final VoidCallback? onSignInTap;
+  final VoidCallback? onUpdateProfileTap;
+  final VoidCallback? onSignUpTap;
 
   const ProfileMenuView({
     this.onSignInTap,
@@ -43,8 +53,107 @@ class ProfileMenuView extends StatelessWidget {
   Widget build(BuildContext context) {
     return StyledStatusBar.dark(
       child: Scaffold(
-        body: SafeArea(child: BlocBuilder(builder: (context, state) {})),
+        body: SafeArea(
+          child: BlocBuilder<ProfileMenuBloc, ProfileMenuState>(
+            builder: (context, state) {
+              if (state is ProfileMenuLoaded) {
+                final username = state.username;
+                return Column(
+                  children: [
+                    if (!state.isUserAuthenticated) ...[
+                      _SignInButton(onSiginTap: onSignInTap),
+                      const SizedBox(height: Spacing.xLarge),
+                      Text("Don\'t have an account?"),
+                      TextButton(child: Text("SignUp"), onPressed: onSignUpTap),
+                      const SizedBox(height: Spacing.large),
+                    ],
+                    if (username != null) ...[
+                      Expanded(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(Spacing.small),
+                            child: ShrinkableText(
+                              text: 'i, ${username}!',
+                              style: const TextStyle(fontSize: 36),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Divider(),
+                      ChevronListTile(
+                        label: "Update Profile",
+                        onTap: onUpdateProfileTap,
+                      ),
+                      const Divider(),
+                      const SizedBox(height: Spacing.mediumLarge),
+                    ],
+                    if (state.isUserAuthenticated) ...[
+                      const Spacer(),
+                      _SignOutButton(
+                        isSignOutInProgress: state.isSignOutInProgress,
+                      ),
+                    ],
+                  ],
+                );
+              } else {
+                return const CenteredCircularProgressIndicator();
+              }
+            },
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class _SignInButton extends StatelessWidget {
+  final VoidCallback? onSiginTap;
+
+  const _SignInButton({Key? key, this.onSiginTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = WonderTheme.of(context);
+    return Padding(
+      padding: EdgeInsets.only(
+        left: theme.screenMargin,
+        right: theme.screenMargin,
+        top: Spacing.xxLarge,
+      ),
+      child: ExpandedElevatedButton(
+        onTap: onSiginTap,
+        label: "Sigin",
+        icon: const Icon(Icons.login),
+      ),
+    );
+  }
+}
+
+class _SignOutButton extends StatelessWidget {
+  const _SignOutButton({required this.isSignOutInProgress, Key? key})
+    : super(key: key);
+
+  final bool isSignOutInProgress;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = WonderTheme.of(context);
+    return Padding(
+      padding: EdgeInsets.only(
+        left: theme.screenMargin,
+        right: theme.screenMargin,
+        bottom: Spacing.xLarge,
+      ),
+      child: isSignOutInProgress
+          ? ExpandedElevatedButton.inProgress(label: "Sign Out")
+          : ExpandedElevatedButton(
+              onTap: () {
+                final bloc = context.read<ProfileMenuBloc>();
+                bloc.add(const ProfileMenuSignedOut());
+              },
+              label: "Sign Out",
+              icon: const Icon(Icons.logout),
+            ),
     );
   }
 }
