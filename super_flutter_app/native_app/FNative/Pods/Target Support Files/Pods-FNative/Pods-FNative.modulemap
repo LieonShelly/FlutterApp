@@ -1,0 +1,6 @@
+framework module Pods_FNative {
+  umbrella header "Pods-FNative-umbrella.h"
+
+  export *
+  module * { export * }
+}
