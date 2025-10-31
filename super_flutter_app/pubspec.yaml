@@ -22,6 +22,8 @@ dependencies:
     path: packages/features/quote_list
   quote_details:
     path: packages/features/quote_details
+  profile_menu:
+    path: packages/features/profile_menu
   sign_in:
     path: packages/features/sign_in
   domain_models:

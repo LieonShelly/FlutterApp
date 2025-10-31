@@ -14,8 +14,6 @@ class UserRepository {
   final BehaviorSubject<User?> _userSubject = BehaviorSubject();
   final UserLocalStorage _localStorage;
   final UserSecureStorage _secureStorage;
-  final BehaviorSubject<DarkModePreference> _darkkModePreferenceSubject =
-      BehaviorSubject();
   final BehaviorSubject<DarkModePreference> _darkModePreferenceSubject =
       BehaviorSubject();
 
@@ -50,14 +48,14 @@ class UserRepository {
   }
 
   Stream<DarkModePreference> getDarkModePreference() async* {
-    if (!_darkkModePreferenceSubject.hasValue) {
+    if (!_darkModePreferenceSubject.hasValue) {
       final storedPreference = await _localStorage.getDarkModePreference();
-      _darkkModePreferenceSubject.add(
+      _darkModePreferenceSubject.add(
         storedPreference?.toDomainModel() ??
             DarkModePreference.useSystemSettings,
       );
     }
-    yield* _darkkModePreferenceSubject.stream;
+    yield* _darkModePreferenceSubject.stream;
   }
 
   Stream<User?> getUser() async* {

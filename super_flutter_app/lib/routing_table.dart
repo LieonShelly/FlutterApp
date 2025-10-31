@@ -1,6 +1,7 @@
 import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:key_value_storage/key_value_storage.dart';
+import 'package:profile_menu/profile_menu.dart';
 import 'package:quote_list/quote_list.dart';
 import 'package:sign_in/sign_in.dart';
 import 'package:super_flutter_app/tab_container_screen.dart';
@@ -65,6 +66,14 @@ Map<String, PageBuilder> buildRoutingTable({
           onAuthenticatonError: () {
             routerDelegate.push(_PathConstants.signInPath);
           },
+          quoteRepository: quoteRepository,
+        ),
+      ),
+    ),
+    _PathConstants.profileMenuPath: (_) => MaterialPage(
+      child: Scaffold(
+        body: ProfileMenuScreen(
+          userRepository: userRepository,
           quoteRepository: quoteRepository,
         ),
       ),
