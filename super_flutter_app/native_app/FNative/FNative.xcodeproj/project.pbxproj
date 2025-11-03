@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B7BFEDA678586F96AF971A95 /* Pods_FNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F71B11542CD07CBC7EAB3D93 /* Pods_FNative.framework */; };
+		A009711941D0B9C9D0A60163 /* Pods_FNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765CA2B87C61C64CC65C3116 /* Pods_FNative.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,9 +28,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		71A635AEC62F8888A74DA378 /* Pods-FNative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FNative.debug.xcconfig"; path = "Target Support Files/Pods-FNative/Pods-FNative.debug.xcconfig"; sourceTree = "<group>"; };
-		CDA11C90BC94F4893B35DFC9 /* Pods-FNative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FNative.release.xcconfig"; path = "Target Support Files/Pods-FNative/Pods-FNative.release.xcconfig"; sourceTree = "<group>"; };
-		F71B11542CD07CBC7EAB3D93 /* Pods_FNative.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FNative.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D4A5150AB7D7529E6A67350 /* Pods-FNative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FNative.release.xcconfig"; path = "Target Support Files/Pods-FNative/Pods-FNative.release.xcconfig"; sourceTree = "<group>"; };
+		3BF90F5C6EBA0287EBABB89A /* Pods-FNative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FNative.debug.xcconfig"; path = "Target Support Files/Pods-FNative/Pods-FNative.debug.xcconfig"; sourceTree = "<group>"; };
+		765CA2B87C61C64CC65C3116 /* Pods_FNative.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FNative.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F822F6AA2EB51AB500BACB75 /* FNative.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FNative.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F822F6B72EB51AB700BACB75 /* FNativeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FNativeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F822F6C12EB51AB700BACB75 /* FNativeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FNativeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7BFEDA678586F96AF971A95 /* Pods_FNative.framework in Frameworks */,
+				A009711941D0B9C9D0A60163 /* Pods_FNative.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,18 +83,10 @@
 		53EC502B07D53F551B606663 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				71A635AEC62F8888A74DA378 /* Pods-FNative.debug.xcconfig */,
-				CDA11C90BC94F4893B35DFC9 /* Pods-FNative.release.xcconfig */,
+				3BF90F5C6EBA0287EBABB89A /* Pods-FNative.debug.xcconfig */,
+				1D4A5150AB7D7529E6A67350 /* Pods-FNative.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		ADA4F98344F552A09C4CB722 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F71B11542CD07CBC7EAB3D93 /* Pods_FNative.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F822F6A12EB51AB500BACB75 = {
@@ -105,7 +97,7 @@
 				F822F6C42EB51AB700BACB75 /* FNativeUITests */,
 				F822F6AB2EB51AB500BACB75 /* Products */,
 				53EC502B07D53F551B606663 /* Pods */,
-				ADA4F98344F552A09C4CB722 /* Frameworks */,
+				F94BE6C0642D315079769171 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,6 +111,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F94BE6C0642D315079769171 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				765CA2B87C61C64CC65C3116 /* Pods_FNative.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,12 +126,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F822F6CB2EB51AB700BACB75 /* Build configuration list for PBXNativeTarget "FNative" */;
 			buildPhases = (
-				E0F419DBB36E515F40797109 /* [CP] Check Pods Manifest.lock */,
-				724F3E03BC8B2BF942883D3E /* [CP-User] Run Flutter Build f_home Script */,
+				DB3BB38D5CC5FBE599D75204 /* [CP] Check Pods Manifest.lock */,
+				913EDA288A2C0F55B0ABDE38 /* [CP-User] Run Flutter Build f_home Script */,
 				F822F6A62EB51AB500BACB75 /* Sources */,
 				F822F6A72EB51AB500BACB75 /* Frameworks */,
 				F822F6A82EB51AB500BACB75 /* Resources */,
-				EF3F8131FDD21A85D9ED83EC /* [CP-User] Embed Flutter Build f_home Script */,
+				4DF01BAC536C7AF85C196BE9 /* [CP-User] Embed Flutter Build f_home Script */,
 			);
 			buildRules = (
 			);
@@ -256,7 +256,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		724F3E03BC8B2BF942883D3E /* [CP-User] Run Flutter Build f_home Script */ = {
+		4DF01BAC536C7AF85C196BE9 /* [CP-User] Embed Flutter Build f_home Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP-User] Embed Flutter Build f_home Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nset -u\nsource \"${SRCROOT}/../../modules/f_home/.ios/Flutter/flutter_export_environment.sh\"\nexport VERBOSE_SCRIPT_LOGGING=1 && \"$FLUTTER_ROOT\"/packages/flutter_tools/bin/xcode_backend.sh embed_and_thin";
+		};
+		913EDA288A2C0F55B0ABDE38 /* [CP-User] Run Flutter Build f_home Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -270,7 +284,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\nset -u\nsource \"${SRCROOT}/../../modules/f_home/.ios/Flutter/flutter_export_environment.sh\"\nexport VERBOSE_SCRIPT_LOGGING=1 && \"$FLUTTER_ROOT\"/packages/flutter_tools/bin/xcode_backend.sh build";
 		};
-		E0F419DBB36E515F40797109 /* [CP] Check Pods Manifest.lock */ = {
+		DB3BB38D5CC5FBE599D75204 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -291,20 +305,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		EF3F8131FDD21A85D9ED83EC /* [CP-User] Embed Flutter Build f_home Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP-User] Embed Flutter Build f_home Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\nset -u\nsource \"${SRCROOT}/../../modules/f_home/.ios/Flutter/flutter_export_environment.sh\"\nexport VERBOSE_SCRIPT_LOGGING=1 && \"$FLUTTER_ROOT\"/packages/flutter_tools/bin/xcode_backend.sh embed_and_thin";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -469,7 +469,7 @@
 		};
 		F822F6CC2EB51AB700BACB75 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71A635AEC62F8888A74DA378 /* Pods-FNative.debug.xcconfig */;
+			baseConfigurationReference = 3BF90F5C6EBA0287EBABB89A /* Pods-FNative.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -509,7 +509,7 @@
 		};
 		F822F6CD2EB51AB700BACB75 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CDA11C90BC94F4893B35DFC9 /* Pods-FNative.release.xcconfig */;
+			baseConfigurationReference = 1D4A5150AB7D7529E6A67350 /* Pods-FNative.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
