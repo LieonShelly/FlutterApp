@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var flutterDependencies: FlutterDependencies
+    
     var body: some View {
         NavigationStack {
-             NavigationLink("My Flutter Feature") {
-               FlutterViewControllerRepresentable()
+             NavigationLink("home") {
+               FlutterViewControllerRepresentable(route: "/home")
              }
+            
+            NavigationLink("user") {
+              FlutterViewControllerRepresentable(route: "/user")
+            }
            }
     }
 }

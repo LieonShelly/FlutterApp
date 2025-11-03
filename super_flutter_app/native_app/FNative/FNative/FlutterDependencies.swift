@@ -8,14 +8,17 @@
 import SwiftUI
 import Flutter
 import FlutterPluginRegistrant
+import Foundation
+import Combine
 
-
-@Observable
-class FlutterDependencies {
-    let flutterEngine = FlutterEngine(name: "my flutter engine")
+class FlutterDependencies: ObservableObject {
     
-    init() {
+    let flutterEngine: FlutterEngine
+    
+    init(flutterEngine: FlutterEngine) {
+        self.flutterEngine = flutterEngine
         flutterEngine.run(withEntrypoint: nil, initialRoute: "/home")
-        GeneratedPluginRegistrant.register(with: self.flutterEngine);
+        GeneratedPluginRegistrant.register(with: flutterEngine)
     }
+    
 }

@@ -7,20 +7,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter in iOS',
-      routes: {'/home': (_) => FlutterHome()},
+      routes: {'/home': (_) => FlutterHome(), '/user': (_) => UserHome()},
     );
   }
 }
 
-class NativeHome extends StatelessWidget {
-  const NativeHome({super.key});
+class UserHome extends StatelessWidget {
+  const UserHome({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: Text(
-          '原生页面占位\n请通过按钮跳转到 /home',
+          'User /User',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 18, color: Colors.grey),
         ),

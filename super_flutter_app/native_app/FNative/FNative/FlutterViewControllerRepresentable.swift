@@ -9,7 +9,12 @@ import Flutter
 import FlutterPluginRegistrant
 
 struct FlutterViewControllerRepresentable: UIViewControllerRepresentable {
-    @Environment(FlutterDependencies.self) var flutterDependencies
+    @EnvironmentObject var flutterDependencies: FlutterDependencies
+    private let route: String
+    
+    init(route: String) {
+        self.route = route
+    }
     
     func makeUIViewController(context: Context) -> some UIViewController {
         return FlutterViewController(
@@ -18,5 +23,8 @@ struct FlutterViewControllerRepresentable: UIViewControllerRepresentable {
             bundle: nil)
     }
     
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        guard let uiViewController = uiViewController as? FlutterViewController else { return }
+        uiViewController.pushRoute(route)
+    }
 }

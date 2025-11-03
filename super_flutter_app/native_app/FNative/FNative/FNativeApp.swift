@@ -12,12 +12,12 @@ import FlutterPluginRegistrant
 
 @main
 struct FNativeApp: App {
-    @State var flutterDependencies = FlutterDependencies()
+    @StateObject var flutterDependencies = FlutterDependencies(flutterEngine: .init(name: "engine"))
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(flutterDependencies)
+                .environmentObject(flutterDependencies)
         }
     }
 }
