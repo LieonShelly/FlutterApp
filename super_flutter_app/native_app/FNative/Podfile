@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '18.0'
-flutter_build_mode = ENV['FLUTTER_BUILD_MODE'] || 'debug'
-flutter_application_path = '../f_home'
+
+flutter_application_path = '../../modules/f_home'
 load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
 
 
