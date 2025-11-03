@@ -1,0 +1,22 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '18.0'
+flutter_build_mode = ENV['FLUTTER_BUILD_MODE'] || 'debug'
+flutter_application_path = '../f_home'
+load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
+
+
+target 'FNative' do
+  use_frameworks!
+ install_all_flutter_pods(flutter_application_path)
+
+
+  # framework_path = File.join(flutter_application_path, "build/ios/framework/#{flutter_build_mode.capitalize}")
+  # pod 'Flutter', :path => File.join(framework_path, 'Flutter.podspec')
+
+
+  post_install do |installer|
+    flutter_post_install(installer) if defined?(flutter_post_install)
+  end
+
+
+end
